@@ -15,14 +15,26 @@
 aside {
     width: 260px;
     background-color: rgb(0, 0, 0);
+    flex-direction: column;
+    justify-content: flex-start;
+    display: flex;
     border-right: 1px solid #171717;
+    min-width: 260px;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+
 }
 
-/* make aside a column flex container so children can share vertical space */
-aside {
-    display: flex;
-    flex-direction: column;
+aside.closed {
+    width: 2px;
+    min-width: 2px;
+    border-right: none;
+    padding: 0px;
+    background: black;
+    cursor: e-resize;
 }
+
+
 .just_div {
     display: flex;
     flex-direction: column;
@@ -36,6 +48,12 @@ aside nav {
     padding: 9px;
     justify-content: space-between;
     display: flex;
+
+}
+
+.just_div>nav>button {
+    background-color: black;
+    border: none;
 
 }
 
@@ -56,6 +74,20 @@ aside nav {
     cursor: e-resize;
     padding: 6px;
     margin-right: 16px;
+}
+
+.slidebar_logo_closed {
+    width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    cursor: e-resize;
+    padding: 10px;
+    margin-right: 20px;
+    background-color: #3f3f3f79;
 
 }
 
@@ -69,18 +101,23 @@ aside nav {
     border-radius: 5px;
 }
 
+
 .button {
-    width: 85%;
+    width: 90%;
     font: 22px;
-    background-color: black;
+    background: transparent;
     color: white;
     text-align: center;
     display: flex;
-    gap: 1px;
+    gap: 5px;
     border: none;
     padding: 5px;
     text-align: center;
 
+}
+
+.button:hover {
+    background-color: rgba(100, 100, 100, 0.2);
 }
 
 .fa-pen-to-square {
@@ -102,21 +139,20 @@ aside nav {
     display: flex;
     flex-direction: row;
     width: 85%;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    margin-left: 10px;
+    padding: 5px;
+    background-color: black;
 
 }
 
 .just_div>span:hover {
-    background-color: rgb(33, 33, 33);
+    background-color: rgba(100, 100, 100, 0.2);
     transition: all 0.2s ease;
-    border-radius: 10px;
-  
-
+    border-radius: 8px;
 }
 
 .button:hover {
-    background-color: rgb(33, 33, 33);
+    background-color: rgb(100, 100, 100, 0);
     transition: all 0.2s ease;
 }
 
@@ -127,11 +163,40 @@ aside nav {
     display: flex;
     overflow-x: hidden;
     flex-direction: column;
-    border-top: 1px solid #171717;
-    height:76vh;
+    /* border-top: 1px solid #171717; */
+    height: 76vh;
     flex: 0 1 auto;
 
 }
+
+.table_of_content>button {
+    color: white;
+    background-color: rgb(0, 0, 0);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 90%;
+    justify-content: flex-start;
+    margin-left: 6px;
+    padding: 8px;
+    border-radius: 8px;
+
+}
+
+.table_of_content>button:hover {
+    background-color: rgba(100, 100, 100, 0.2);
+}
+
+.table_of_content>button>span {
+    color: black;
+}
+
+.table_of_content>button:hover>span {
+    color: #dddada;
+
+}
+
 
 .table_of_content::-webkit-scrollbar {
     width: 8px;
@@ -143,26 +208,31 @@ aside nav {
 }
 
 .table_of_content::-webkit-scrollbar-thumb {
-    background: #444444;
+    background: #1d1d1d;
     border-radius: 10px;
 }
 
 .table_of_content::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #626262;
 }
 
 .table_of_content>p {
-    
     font-size: 14px;
-    padding:9px;
+    padding: 10px;
     margin-left: 5px;
-    
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 85%;
+    overflow: hidden;
+    flex-shrink: 0;
+
+
 }
-.table_of_content>p:hover{
+
+.table_of_content>p:hover {
     background-color: rgba(100, 100, 100, 0.2);
     cursor: pointer;
     transition: all 0.2s ease;
-    width:85%;
     border-radius: 10px;
 }
 
@@ -173,36 +243,41 @@ aside nav {
     color: white;
     border-top: 1px solid #171717;
     flex: 1 1 auto;
-    padding:10px;
+    padding: 10px;
 }
-footer{
+
+footer {
     flex-direction: row;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:5px;
-    width:100%;
-    padding:5px;
+    gap: 5px;
+    width: 100%;
+    padding: 5px;
     justify-content: space-between;
 }
-footer>span{
+
+footer>span {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:5px;
+    gap: 5px;
 }
-footer>span>p{
+
+footer>span>p {
     font-size: 14px;
-    
+
 }
-footer:hover{
+
+footer:hover {
     background-color: rgba(100, 100, 100, 0.2);
     transition: all 0.2s ease;
     border-radius: 10px;
     cursor: pointer;
 }
-footer>button{
-    background-color:rgba(121, 121, 121,0.2);
+
+footer>button {
+    background-color: rgba(121, 121, 121, 0.2);
     color: rgb(233, 233, 233);
     border: none;
     padding: 5px 8px;
@@ -215,10 +290,10 @@ footer>button{
     display: flex;
 }
 
-.fa-v{
-    background-color: rgb(166, 166, 166);
-    border-radius:50% ;
-    padding:8px;
+.fa-v {
+    background-color: rgb(229, 173, 130);
+    border-radius: 50%;
+    padding: 8px;
     text-align: center;
     justify-content: center;
     display: flex;
@@ -231,5 +306,137 @@ footer>button{
     width: auto;
     background-color: rgb(0, 0, 0);
     flex: 1;
-    color:white;
+    color: white;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.chat_bot>nav>span {
+    display: flex;
+    background-color: rgb(0, 0, 0);
+    border-radius: 10px;
+    justify-content: space-between;
+    padding: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
+
+}
+
+.chat_bot>nav>span>button {
+    color: aliceblue;
+    background-color: black;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat_bot>nav>span>span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.chat_bot>nav>span>span>span>button {
+    color: rgb(233, 231, 234);
+    background-color: black;
+    border: none;
+    font-size: 12px;
+    font-weight: 400;
+    display: flex;
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+.first_btn:hover {
+    background-color: rgba(100, 100, 100, 0.2);
+    transition: all 0.2sa ease;
+}
+
+.chat_box {
+    background-color: rgb(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    flex: 1;
+    padding-bottom:10%;
+
+}
+
+.chat_box>p {
+    color: white;
+    font-size: 25px;
+    font-weight: 400;
+
+}
+
+.fortext {
+    width: 55%;
+    height: 30px;
+    margin-top: 3%;
+    display: flex;
+    border-radius: 25px;
+    padding: 12px;
+    border: none;
+    justify-content: left;
+    align-items: center;
+    flex-direction: row;
+    background-color: rgba(100, 100, 100, 0.3);
+    gap: 2px;
+}
+
+.fortext>input {
+    width: 85%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+}
+
+.fortext>svg {
+    padding: 6px;
+    border-radius: 50%;
+}
+
+.fortext>svg:hover {
+    background-color: rgb(100, 100, 100, 0.3);
+}
+.chat_box>span>button{
+    background-color: black;
+    border: 1px solid rgb(34, 34, 34);
+    border-radius :25px;
+    color:white ;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding:20px;
+    height:20px;
+    width:auto;
+    gap:8px;
+    width:auto;
+    overflow: hidden;
+    
+}
+.chat_box>span>button:hover{
+    background-color: rgba(100, 100, 100, 0.2);
+}
+.chat_box>span{
+    flex-direction: row;
+    display: flex;
+    gap:10px;
+    padding:10px;
 }
