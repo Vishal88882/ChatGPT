@@ -321,7 +321,6 @@ footer>button {
 
 }
 
-
 .chat_bot>nav>span {
     display: flex;
     background-color: rgb(0, 0, 0);
@@ -453,3 +452,56 @@ footer>button {
     padding: 10px;
 }
 
+.dropdown_css {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    width: 280px;
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 20px;
+    position: fixed;
+    top: 44px;
+    left: 280px;
+}
+
+.upper_div {
+    flex-direction: row;
+    display: flex;
+    padding: 10px;
+    justify-content: flex-start;
+    border-radius: 15px;
+}
+
+.upper_div:hover {
+    background-color: rgba(100, 100, 100, 0.4);
+    transition: all 0.1s ease;
+}
+
+.upper_div>button {
+    background-color: rgb(21, 21, 21);
+    color: white;
+    padding: 6px;
+    outline: none;
+    border: 1px solid rgb(62, 62, 62);
+    margin-left: auto;
+    border-radius: 15px;
+}
+
+.upper_div_sub {
+    display: flex;
+    flex-direction: column;
+    margin-left: 6px;
+}
+
+.main_text {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.small_text {
+    font-size: 10px;
+    font-weight: 200;
+}
+.tick{
+    margin-left:auto ;
+}
