@@ -154,7 +154,7 @@ export default function App() {
                             )}
         
                         </span>
-                        <span>
+                        <span className="suggestions">
                             <button><img src={button1} alt="Create an image" />Create an image</button>
                             <button><img src={button2} alt="Write or edit" />Write or edit</button>
                             <button><img src={button3} alt="Look Something Up" />Look Something Up</button>

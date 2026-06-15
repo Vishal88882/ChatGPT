@@ -90,10 +90,10 @@ export default function Login() {
 
             <span>
               <span>
-                <button className="first_btn">Free offer</button>
+                <button className="first_btn first_btn_1">Log in</button>
               </span>
               <span>
-                <button className="first_btn"><img src={nothing} alt="Nothing" /></button>
+                <button className="first_btn_2">Signup for free</button>
               </span>
             </span>
           </span>
@@ -134,10 +134,13 @@ export default function Login() {
             )}
 
           </span>
-          <span>
-            <button>Create an image</button>
-            <button>Write or edit</button>
-            <button>Look Something Up</button>
+          <span className="suggestions suggestions_1">
+            <p>Create an image</p>
+            <hr />
+            <p>Write or edit</p>
+            <hr />
+            <p>Look Something Up</p>
+            <hr />
           </span>
         </div>
 
