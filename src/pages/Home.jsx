@@ -75,7 +75,7 @@ export default function App() {
                     </div>
 
                     <div className="footer_div">
-                        <footer>
+                        <footer className="footer_align">
                             <span>
                                 <i className="fa-solid fa-v"></i><p>Vishal Rajput</p>
                             </span>

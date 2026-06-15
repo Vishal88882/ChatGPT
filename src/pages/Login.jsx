@@ -5,7 +5,6 @@ import "../App.css";
 import book from "../assets/book.svg";
 import apps from "../assets/apps.svg";
 import chatgpt from "../assets/chatgpt.svg";
-import freeoffer from "../assets/freeoffer.svg";
 import nothing from "../assets/nothing.svg";
 import gemini from "../assets/gemini.svg";
 import star from "../assets/star.svg";
@@ -14,6 +13,11 @@ import input1 from "../assets/input1.svg";
 import input2 from "../assets/input2.svg";
 import input3 from "../assets/input3.svg";
 import send from "../assets/send.svg";
+import login1 from "../assets/login1.svg";
+import login3 from "../assets/login3.svg";
+import { FiSettings } from "react-icons/fi";
+import { FiLifeBuoy } from "react-icons/fi";
+
 
 import { useNavigate } from "react-router-dom";
 
@@ -48,17 +52,25 @@ export default function Login() {
           </span>
         </div>
 
-        <div className="table_of_content">
+        <div className="table_of_content table_of_content_1">
           <button><img src={book} alt="Library" />Images</button>
           <button><img src={apps} alt="Apps" />Apps</button>
         </div>
+        <div className="button_icon">
+          <button><img src={login1}/>See plans and pricing</button>
+          <button><FiSettings size={18} />Settings</button>
+          <button><FiLifeBuoy size={20}/>Help</button>
+          
+        </div>
 
-        <div className="footer_div">
-          <footer>
+        <div className="footer_div footer_div_1">
+          <footer className="footer_align footer_align_1">
             <span>
-              <i className="fa-solid fa-v"></i><p>Vishal Rajput</p>
+              <p>Get responses tailored to you</p>
+              <span>Log in to get answers based on saved chats, plus create images and upload files.
+              </span>
             </span>
-            <button onClick={() => navigate("/home")}>Upgrade</button>
+            <button onClick={() => navigate("/home")}>Log in</button>
           </footer>
         </div>
       </aside>
