@@ -3,21 +3,34 @@ import { SiOpenai } from "react-icons/si";
 import { LuPanelLeft } from "react-icons/lu";
 import "../App.css";
 import book from "../assets/book.svg";
-import project from "../assets/project.svg";
 import apps from "../assets/apps.svg";
-import codex from "../assets/codex.svg";
-import arrow from "../assets/arrow.svg";
-import more from "../assets/more.svg";
 import chatgpt from "../assets/chatgpt.svg";
 import freeoffer from "../assets/freeoffer.svg";
 import nothing from "../assets/nothing.svg";
 import gemini from "../assets/gemini.svg";
 import star from "../assets/star.svg";
 import tick from "../assets/tick.svg";
+import input1 from "../assets/input1.svg";
+import input2 from "../assets/input2.svg";
+import input3 from "../assets/input3.svg";
+import send from "../assets/send.svg";
+
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [isOpen, setIsOpen] = useState(true);
   const [dropdown, setDropdown] = useState(false);
+  const navigate = useNavigate();
+  const [sendActive, setsendActive] = useState("");
+
+  function handleInputChange(event) {
+    const inputValue = event.target.value;
+    if (inputValue.trim() === "") {
+      setsendActive(false);
+    }
+    setsendActive(inputValue);
+  }
+
 
   return (
     <div className="container" onClick={() => setDropdown(false)}>
@@ -36,17 +49,8 @@ export default function Login() {
         </div>
 
         <div className="table_of_content">
-          <button><img src={book} alt="Library" />Library</button>
-          <button><img src={project} alt="Projects" />Projects</button>
+          <button><img src={book} alt="Library" />Images</button>
           <button><img src={apps} alt="Apps" />Apps</button>
-          <button className="codex"><img src={codex} alt="Codex" />Codex <span style={{ marginLeft: "auto" }}><img src={arrow} className="arrow" alt="Arrow" /></span></button>
-          <button><img src={more} alt="More" />More</button>
-
-          <h5 style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "8px" }}>Recents</h5>
-          <p>Vijay Thalapathy CM</p>
-          <p>VS Code Portable Use</p>
-          <p>Blast Furnace Crafting Issue</p>
-          <p>Blast Furnace Crafting Issue</p>
         </div>
 
         <div className="footer_div">
@@ -54,7 +58,7 @@ export default function Login() {
             <span>
               <i className="fa-solid fa-v"></i><p>Vishal Rajput</p>
             </span>
-            <button>Upgrade</button>
+            <button onClick={() => navigate("/home")}>Upgrade</button>
           </footer>
         </div>
       </aside>
@@ -74,7 +78,7 @@ export default function Login() {
 
             <span>
               <span>
-                <button className="first_btn"><img src={freeoffer} alt="Free offer" />Free offer</button>
+                <button className="first_btn">Free offer</button>
               </span>
               <span>
                 <button className="first_btn"><img src={nothing} alt="Nothing" /></button>
@@ -108,7 +112,15 @@ export default function Login() {
         <div className="chat_box">
           <p>What’s on the agenda today?</p>
           <span className="fortext">
-            <input autoFocus placeholder="Ask anything"></input>
+            <img src={input1} alt="Input 1" className="svg" />
+            <input autoFocus placeholder="SVG by jock" onChange={handleInputChange}></input>
+            <img src={input2} alt="Input 2" className="svg" />
+            {sendActive ? (
+              <img src={send} alt="Send" className="svg" />
+            ) : (
+              <img src={input3} alt="Input 3" className="svg" />
+            )}
+
           </span>
           <span>
             <button>Create an image</button>
@@ -116,14 +128,6 @@ export default function Login() {
             <button>Look Something Up</button>
           </span>
         </div>
-
-      </div>
-
-      <div>
-        {/* <form action="">
-          <input type="text" placeholder="UserName" />
-          <input type="text" placeholder="Password" />
-          </form> */}
 
       </div>
     </div>

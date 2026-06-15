@@ -20,12 +20,22 @@ import button3 from "../assets/button3.svg";
 import gemini from "../assets/gemini.svg";
 import star from "../assets/star.svg";
 import tick from "../assets/tick.svg";
+import send from "../assets/send.svg";
 
 export default function App() {
 
     const [isOpen, setIsOpen] = useState(true);
     const [dropdown, setDropdown] = useState(false);
     const [divstate, setdivstate] = useState(true);
+    const [sendActive, setsendActive] = useState("");
+
+    function handleInputChange(event) {
+        const inputValue = event.target.value;
+        if(inputValue.trim() === "") {
+            setsendActive(false);
+        }
+        setsendActive(inputValue);
+    }
 
     return (<>
         {divstate && (
@@ -135,9 +145,14 @@ export default function App() {
                         <p>What’s on the agenda today?</p>
                         <span className="fortext">
                             <img src={input1} alt="Input 1" className="svg" />
-                            <input autoFocus placeholder="SVG by jock"></input>
+                            <input autoFocus placeholder="SVG by jock" onChange={handleInputChange}></input>
                             <img src={input2} alt="Input 2" className="svg" />
-                            <img src={input3} alt="Input 3" className="svg" />
+                            {sendActive ? (
+                                <img src={send} alt="Send" className="svg" />
+                            ) : (
+                                <img src={input3} alt="Input 3" className="svg" />
+                            )}
+        
                         </span>
                         <span>
                             <button><img src={button1} alt="Create an image" />Create an image</button>
