@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { SiOpenai } from "react-icons/si";
-import { LuPanelLeft } from "react-icons/lu";
+import { LuGraduationCap, LuNewspaper, LuPanelLeft } from "react-icons/lu";
+import { RxCross2 } from "react-icons/rx";
+
 import "../App.css";
 import book from "../assets/book.svg";
 import apps from "../assets/apps.svg";
 import chatgpt from "../assets/chatgpt.svg";
-import nothing from "../assets/nothing.svg";
 import gemini from "../assets/gemini.svg";
 import star from "../assets/star.svg";
 import tick from "../assets/tick.svg";
@@ -14,7 +15,6 @@ import input2 from "../assets/input2.svg";
 import input3 from "../assets/input3.svg";
 import send from "../assets/send.svg";
 import login1 from "../assets/login1.svg";
-import login3 from "../assets/login3.svg";
 import { FiSettings } from "react-icons/fi";
 import { FiLifeBuoy } from "react-icons/fi";
 
@@ -26,6 +26,7 @@ export default function Login() {
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const [sendActive, setsendActive] = useState("");
+  const [ loginbar, setloginbar ] = useState(true);
 
   function handleInputChange(event) {
     const inputValue = event.target.value;
@@ -57,10 +58,10 @@ export default function Login() {
           <button><img src={apps} alt="Apps" />Apps</button>
         </div>
         <div className="button_icon">
-          <button><img src={login1}/>See plans and pricing</button>
+          <button><img src={login1} />See plans and pricing</button>
           <button><FiSettings size={18} />Settings</button>
-          <button><FiLifeBuoy size={20}/>Help</button>
-          
+          <button><FiLifeBuoy size={20} />Help</button>
+
         </div>
 
         <div className="footer_div footer_div_1">
@@ -87,10 +88,17 @@ export default function Login() {
             <button className="first_btn" onClick={(e) => { e.stopPropagation(); setDropdown(true); }}>
               ChatGPT <img src={chatgpt} alt="ChatGPT" />
             </button>
+             {loginbar && (
+          <div className="login_form">
+            <span><RxCross2 style={{fontSize:"20px", marginLeft:"auto", display:"flex"}}/></span>
+            <p className="main_heading">Login or sign up</p>
+
+            </div>
+        )}
 
             <span>
               <span>
-                <button className="first_btn first_btn_1">Log in</button>
+                <button className="first_btn first_btn_1" onClick={(e) =>{e.stopPropagation() ;setloginbar(!loginbar)}}>Log in</button>
               </span>
               <span>
                 <button className="first_btn_2">Signup for free</button>
@@ -98,6 +106,7 @@ export default function Login() {
             </span>
           </span>
         </nav>
+       
 
         {dropdown && (
           <div className="dropdown_css">
@@ -121,6 +130,7 @@ export default function Login() {
           </div>
         )}
 
+
         <div className="chat_box">
           <p>What’s on the agenda today?</p>
           <span className="fortext">
@@ -135,12 +145,12 @@ export default function Login() {
 
           </span>
           <span className="suggestions suggestions_1">
-            <p>Create an image</p>
-            <hr />
-            <p>Write or edit</p>
-            <hr />
-            <p>Look Something Up</p>
-            <hr />
+            <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Turn photo into profile pic</p>
+            <div className="line"></div>
+            <p><LuGraduationCap style={{ paddingRight: "6px", fontSize: "22px" }} />How can I save more money?</p>
+            <div className="line"></div>
+            <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Is kala jaadu real?</p>
+
           </span>
         </div>
 

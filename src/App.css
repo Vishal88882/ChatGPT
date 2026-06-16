@@ -468,7 +468,7 @@ aside nav {
 }
 
 .first_btn:hover {
-    background-color: rgba(100, 100, 100, 0.4);
+    background-color: rgba(231, 231, 231,0.2);
     transition: all 0.2sa ease;
 }
 
@@ -476,24 +476,83 @@ aside nav {
     color: rgb(0, 0, 0);
     background-color: white;
     border-radius: 20px;
-    width: 70px;
+    width: 10vh;
     align-items: center;
     display: flex;
     font-weight: 600;
+    font-size: 12px;
+    height: 5vh;
     justify-content: center;
+}
+.first_btn_1:hover{
+    background-color: #dedede;
+
 }
 
 .first_btn_2 {
     color: rgb(255, 255, 255);
-    background-color: rgba(100, 100, 100, 0.2);
+    background-color: rgba(100, 100, 100, 0.4);
     border-radius: 20px;
-    border: 1px solid rgb(34, 34, 34);
-    padding: 10px;
+    border: 1px solid rgb(85, 85, 85);
+    padding: 8px;
     font-size: 12px;
     font-weight: 500;
     align-items: center;
     display: flex;
     justify-content: center;
+}
+.dropdown_css {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    width: 280px;
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 20px;
+    position: fixed;
+    top: 44px;
+    left: 280px;
+}
+
+.upper_div {
+    flex-direction: row;
+    display: flex;
+    padding: 10px;
+    justify-content: flex-start;
+    border-radius: 15px;
+}
+
+.upper_div:hover {
+    background-color: rgba(100, 100, 100, 0.4);
+    transition: all 0.1s ease;
+}
+
+.upper_div>button {
+    background-color: rgb(21, 21, 21);
+    color: white;
+    padding: 6px;
+    outline: none;
+    border: 1px solid rgb(62, 62, 62);
+    margin-left: auto;
+    border-radius: 15px;
+}
+
+.upper_div_sub {
+    display: flex;
+    flex-direction: column;
+    margin-left: 6px;
+}
+
+.main_text {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.small_text {
+    font-size: 10px;
+    font-weight: 200;
+}
+.tick{
+    margin-left:auto ;
 }
 
 .chat_box {
@@ -576,19 +635,37 @@ aside nav {
 }
 
 .suggestions_1 {
-    background-color: rgba(100, 100, 100, 0.2);
+    background-color: rgba(100, 100, 100, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width:80%
-}
-.suggestions_1>p{
-    color: rgb(126, 126, 126);
-    border-top: 1px solid rgb(141, 141, 141);
-    padding: 5px;
+    width: 55%;
+    margin-top: 5px;
+        align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    display: flex;
 }
 
+.suggestions_1>p {
+    color: rgb(163, 163, 163);
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    font-weight: 100px;
+
+}
+.suggestions_1>div{
+    width:52%;
+    height:1px;
+    background-color: rgb(75, 75, 75);
+}
+.suggestions_1>p:hover{
+    cursor:pointer;
+}
 .button_icon>button {
     background-color: transparent;
     border: 1px solid rgb(34, 34, 34);
@@ -610,4 +687,22 @@ aside nav {
     background-color: rgba(100, 100, 100, 0.2);
     transition: all 0.2s ease;
 
+}
+.login_form{
+    background-color: rgb(45, 42, 42);
+    color: rgb(255, 255, 255);
+    width:28%;
+    border-radius: 15px;
+    height:64vh;
+    padding: 15px;
+    position:fixed;
+    top:14vh;
+    left:49.5vh;
+    z-index:1;
+
+}
+.main_heading{
+    font-size: 40px;
+    font-weight: 200;
+    
 }
