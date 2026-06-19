@@ -60,27 +60,14 @@ export default function App() {
                             </button>
                         </nav>
 
-                        <span>
-                            <img src={pen} alt="" className="svg_images" /><button className="button">New chat</button>
-                        </span >
-                        <span>
-                            <img src={search} alt="" className="svg_images" /><button className="button">Search chats</button>
-                        </span>
-                        <span>
-                            <img src={book} alt="Library" className="svg_images" /><button className="button">Library</button>
-                        </span>
-                        <span>
-                            <img src={project} alt="Projects" className="svg_images" /><button className="button">Projects</button>
-                        </span>
-                        <span>
-                            <img src={apps} alt="Apps" className="svg_images" /><button className="button">Apps</button>
-                        </span>
-                        <span>
-                            <img src={codex} alt="Codex" className="svg_images" /><button className="button">Codex</button><img src={arrow} className="arrow" alt="Arrow" />
-                        </span>
-                        <span>
-                            <img src={more} alt="More" className="svg_images" /><button className="button">More</button>
-                        </span>
+                        <span><img src={pen} alt="" className="svg_images" /><button className="button">New chat</button></span >
+                        <span><img src={search} alt="" className="svg_images" /><button className="button">Search chats</button></span>
+                        <span><img src={book} alt="Library" className="svg_images" /><button className="button">Library</button></span>
+                        <span><img src={project} alt="Projects" className="svg_images" /><button className="button">Projects</button></span>
+                        
+                        <span><img src={apps} alt="Apps" className="svg_images" /><button className="button">Apps</button></span>
+                        <span><img src={codex} alt="Codex" className="svg_images" /><button className="button">Codex</button><img src={arrow} className="arrow" alt="Arrow" /></span>
+                        <span><img src={more} alt="More" className="svg_images" /><button className="button">More</button></span>
 
                     </div>
                     <div className="table_of_content">
@@ -90,6 +77,7 @@ export default function App() {
                         <p>Blast Furnace Crafting Issue</p>
                         <p>Blast reegfdgdfFurnace HEllo ffdf Issue</p>
                         <p>Blast Furnace Crafting Issue</p>
+ 
                     </div>
 
                     <div className="footer_div">
@@ -119,8 +107,6 @@ export default function App() {
                             </span>
                         </span>
                     </nav>
-
-
 
                     {dropdown && (
                         <div className="dropdown_css" >

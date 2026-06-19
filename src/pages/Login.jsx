@@ -133,8 +133,8 @@ export default function Login() {
                   <div className="or">OR</div>
                   <div className="line"></div>
                 </div>
-                <input type="text" placeholder="Email Address" className="inpt" />
-                <button className="submit_btn">Continue</button>
+                <input type="text" placeholder="Email Address" className="inpt" autoFocus />
+                <button className="submit_btn" onClick={() => navigate("/Signup")}>Continue</button>
 
               </div>
 
@@ -146,7 +146,7 @@ export default function Login() {
                 <button className="first_btn first_btn_1" onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Log in</button>
               </span>
               <span>
-                <button className="first_btn_2">Signup for free</button>
+                <button className="first_btn_2" onClick={() => navigate("/Signup")}>Signup for free</button>
               </span>
             </span>
           </span>
@@ -199,7 +199,11 @@ export default function Login() {
           </span>
         </div>
 
+      
+      
+      <p className="disclaimer">ChatGPT is AI. By using it, you agree to our <span>Terms</span> & <span>Privacy Policy.</span> Chats may be reviewed and used to improve our AI models. <span>Learn more</span></p>
       </div>
+      
     </div>
   );
 }

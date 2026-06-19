@@ -31,10 +31,12 @@ aside.closed {
     background: black;
     cursor: e-resize;
 }
-aside.closed .just_div:hover{
+
+aside.closed .just_div:hover {
     cursor: pointer;
 }
-aside.closed .openai_ai_logo{
+
+aside.closed .openai_ai_logo {
     display: none;
 }
 
@@ -90,8 +92,9 @@ aside nav {
     padding: 7px;
     color: white
 }
-.openai_ai_logo:hover{
-    cursor:e-resize
+
+.openai_ai_logo:hover {
+    cursor: e-resize
 }
 
 .slidebar_logo {
@@ -140,14 +143,19 @@ aside nav {
     border-radius: 5px;
 }
 
-.codex:hover .arrow {
+.button:hover + .arrow {
     border-radius: 5px;
-    color: white;
     display: flex;
+    display: inline-block;
+
 }
 
 .arrow {
     display: none;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+
 }
 
 .button {
@@ -173,7 +181,7 @@ aside nav {
     width: 85%;
     margin-left: 10px;
     gap: 3px;
-    
+
     padding: 5px;
     background-color: black;
 
@@ -513,7 +521,7 @@ aside nav {
     align-items: center;
     display: flex;
     width: 140px;
-    height:4.5vh;
+    height: 4.5vh;
     cursor: pointer;
     justify-content: center;
 }
@@ -755,6 +763,7 @@ aside nav {
     align-items: center;
     display: flex;
     text-align: center;
+    color:white;
     justify-content: center;
 
 }
@@ -767,7 +776,6 @@ aside nav {
     text-align: center;
     justify-content: center;
     margin-bottom: 20px;
-
 }
 
 .login_btns {
@@ -822,6 +830,7 @@ aside nav {
     border: 1px solid rgb(175, 175, 175);
     padding: 10px;
     padding-left: 20px;
+    margin-top: 20px;
     display: flex;
 }
 
@@ -840,4 +849,134 @@ aside nav {
     font-weight: 400;
     font-size: 16px;
     border: none;
+}
+.disclaimer{
+    padding-bottom: 30px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 14px;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+.disclaimer span {
+    text-decoration: underline;
+}
+.background {
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    justify-content: center;
+}
+
+.background_inner {
+    height: 50vh;
+    width: 18vw;
+    margin-top: 10px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inpt_new {
+    border-radius: 25px;
+    background-color: #000000;
+    border: none;
+    color: rgb(163, 163, 163);
+    border: 1px solid rgb(69, 69, 69);
+    padding: 12px;
+    width: 90%;
+    margin-top: 8px;
+    display: flex;
+}
+
+.inpt_new::placeholder {
+    font-size: 14px;
+    color: rgb(209, 209, 209);
+    font-weight: 200;
+    padding-left: 6px;
+}
+
+.button_new {
+    width: 95%;
+    background-color: rgb(224, 224, 224);
+    color: rgb(0, 0, 0);
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    height: 5vh;
+    border-radius: 20px;
+    margin-top: 8px;
+    display: flex;
+    border: none;
+    border-color: 1px solid rgb(0, 0, 0);
+
+}
+.button_new_other {
+    width: 95%;
+    color: rgb(255, 255, 255);
+    background: none;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    height: 5vh;
+    border-radius: 20px;
+    margin-top: 8px;
+    display: flex;
+    border: 1px solid rgb(137, 137, 137);
+}
+
+.button_new:hover {
+    background-color: rgb(196, 196, 196);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.divider_new {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.line_new {
+    flex: 1;
+    height: 1px;
+    background: #dadada;
+}
+
+.or_new {
+    padding: 0 12px;
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.caution{
+    color: rgb(255, 255, 255);
+    margin-top:20px;
+    font-weight: 200;
+    text-decoration: underline;
+    gap:8px;
+    display: flex;
+}
+.atag{
+    color: white;
+    font-weight: 500;
+    font-size: x-large;
+    text-decoration: none;
+    position: fixed;
+    top:20px;
+    left:20px;
+}
+.button_new_other:hover{
+    transition: all 0.1s ease-in-out;
+    background-color: rgb(49, 49, 49);
+    cursor: pointer;
 }
