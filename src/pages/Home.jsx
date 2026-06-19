@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { SiOpenai } from "react-icons/si";
-import { LuPanelLeft } from "react-icons/lu";
+
 import "../App.css";
+import openai from "../assets/openai.svg";
+import pen from "../assets/pen.svg";
+import search from "../assets/search.svg";
+import panel from "../assets/panel.svg";
 import book from "../assets/book.svg";
 import project from "../assets/project.svg";
 import apps from "../assets/apps.svg";
@@ -31,7 +34,7 @@ export default function App() {
 
     function handleInputChange(event) {
         const inputValue = event.target.value;
-        if(inputValue.trim() === "") {
+        if (inputValue.trim() === "") {
             setsendActive(false);
         }
         setsendActive(inputValue);
@@ -40,32 +43,47 @@ export default function App() {
     return (<>
         {divstate && (
             <div className="container" onClick={() => setDropdown(false)}>
+
                 <aside className={isOpen ? "sidebar" : "sidebar closed"}>
                     <div className="just_div">
                         <nav >
-                            <button><SiOpenai className="openai_logo" /></button>
-                            <button onClick={() => setIsOpen(!isOpen)}><LuPanelLeft className="slidebar_logo" /></button>
+                            <button>
+                                {isOpen ? (
+                                    <img src={openai} className="openai_logo" />
+                                ) : (
+                                    <img onClick={() => setIsOpen(!isOpen)} src={openai} className="openai_logo" />
+                                )}
+                            </button>
+
+                            <button>
+                                <img onClick={() => setIsOpen(!isOpen)} src={panel} className="openai_ai_logo" />
+                            </button>
                         </nav>
+
                         <span>
-                            <i className="fa-regular fa-pen-to-square"></i><button className="button">New chat</button>
+                            <img src={pen} alt="" className="svg_images" /><button className="button">New chat</button>
                         </span >
                         <span>
-                            <i className="fa-brands fa-sistrix"></i><button className="button">Search chats</button>
+                            <img src={search} alt="" className="svg_images" /><button className="button">Search chats</button>
+                        </span>
+                        <span>
+                            <img src={book} alt="Library" className="svg_images" /><button className="button">Library</button>
+                        </span>
+                        <span>
+                            <img src={project} alt="Projects" className="svg_images" /><button className="button">Projects</button>
+                        </span>
+                        <span>
+                            <img src={apps} alt="Apps" className="svg_images" /><button className="button">Apps</button>
+                        </span>
+                        <span>
+                            <img src={codex} alt="Codex" className="svg_images" /><button className="button">Codex</button><img src={arrow} className="arrow" alt="Arrow" />
+                        </span>
+                        <span>
+                            <img src={more} alt="More" className="svg_images" /><button className="button">More</button>
                         </span>
 
                     </div>
                     <div className="table_of_content">
-                        <button><img src={book} alt="Library" />Library</button>
-
-                        <button><img src={project} alt="Projects" />Projects</button>
-
-
-                        <button><img src={apps} alt="Apps" />Apps</button>
-                        <button className="codex"><img src={codex} alt="Codex" />Codex <span style={{ marginLeft: "auto" }}><img src={arrow} className="arrow" alt="Arrow" /></span></button>
-
-
-                        <button><img src={more} alt="More" />More</button>
-
                         <h5 style={{ marginLeft: "15px", marginTop: "15px", marginBottom: "8px" }}>Recents</h5>
                         <p>Vijay Thalapathy CM</p>
                         <p>VS Code Portable Use</p>
@@ -86,12 +104,6 @@ export default function App() {
 
                 <div className="chat_bot">
                     <nav>
-                        {!isOpen && (
-                            <LuPanelLeft
-                                className="slidebar_logo_closed"
-                                onClick={() => setIsOpen(true)}
-                            />
-                        )}
                         <span>
                             <button className="first_btn" onClick={(e) => { e.stopPropagation(); setDropdown(true); }}>
                                 ChatGPT <img src={chatgpt} alt="ChatGPT" />
@@ -152,7 +164,7 @@ export default function App() {
                             ) : (
                                 <img src={input3} alt="Input 3" className="svg" />
                             )}
-        
+
                         </span>
                         <span className="suggestions">
                             <button><img src={button1} alt="Create an image" />Create an image</button>

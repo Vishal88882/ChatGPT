@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { SiOpenai } from "react-icons/si";
 import { LuGraduationCap, LuNewspaper, LuPanelLeft, LuPhone } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
 import apple from "../assets/apple.svg"
 import phone from "../assets/phone.svg"
 import google from "../assets/google.svg"
-
-import "../App.css";
+import pen from "../assets/pen.svg"
+import search from "../assets/search.svg"
+import panel from "../assets/panel.svg"
+import openai from "../assets/openai.svg"
 import book from "../assets/book.svg";
 import apps from "../assets/apps.svg";
 import chatgpt from "../assets/chatgpt.svg";
@@ -21,6 +22,7 @@ import login1 from "../assets/login1.svg";
 import { FiSettings } from "react-icons/fi";
 import { FiLifeBuoy } from "react-icons/fi";
 
+import "../App.css";
 
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +31,7 @@ export default function Login() {
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const [sendActive, setsendActive] = useState("");
-  const [loginbar, setloginbar] = useState(true);
+  const [loginbar, setloginbar] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   function handleInputChange(event) {
@@ -60,21 +62,35 @@ export default function Login() {
     <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
       <aside className={isOpen ? "sidebar" : "sidebar closed"}>
         <div className="just_div">
-          <nav>
-            <button><SiOpenai className="openai_logo" /></button>
-            <button onClick={() => setIsOpen(!isOpen)}><LuPanelLeft className="slidebar_logo" /></button>
+          <nav >
+            <button>
+              {isOpen ? (
+                <img src={openai} className="openai_logo" />
+              ) : (
+                <img onClick={() => setIsOpen(!isOpen)} src={openai} className="openai_logo" />
+              )}
+            </button>
+
+            <button>
+              <img onClick={() => setIsOpen(!isOpen)} src={panel} className="openai_ai_logo" />
+            </button>
           </nav>
+
           <span>
-            <i className="fa-regular fa-pen-to-square"></i><button className="button">New chat</button>
+            <img src={pen} alt="" className="svg_images" /><button className="button">New chat</button>
           </span>
           <span>
-            <i className="fa-brands fa-sistrix"></i><button className="button">Search chats</button>
+            <img src={search} alt="" className="svg_images" /><button className="button">Search chats</button>
+          </span>
+          <span>
+            <img src={book} alt="" className="svg_images" /><button className="button">Images</button>
+          </span>
+          <span>
+            <img src={apps} alt="" className="svg_images" /><button className="button">Apps</button>
           </span>
         </div>
 
         <div className="table_of_content table_of_content_1">
-          <button><img src={book} alt="Library" />Images</button>
-          <button><img src={apps} alt="Apps" />Apps</button>
         </div>
         <div className="button_icon">
           <button><img src={login1} />See plans and pricing</button>
@@ -97,37 +113,31 @@ export default function Login() {
 
       <div className="chat_bot">
         <nav>
-          {!isOpen && (
-            <LuPanelLeft
-              className="slidebar_logo_closed"
-              onClick={() => setIsOpen(true)}
-            />
-          )}
           <span>
             <button className="first_btn" onClick={(e) => { e.stopPropagation(); setDropdown(true); }}>
               ChatGPT <img src={chatgpt} alt="ChatGPT" />
             </button>
             {loginbar && (<>
               <div className="overlay" ></div>
-                <div className="login_form" onClick={(e) => e.stopPropagation()}>
-                  <button onClick={() => setloginbar(false)} style={{ fontSize: "20px", marginLeft: "auto", display: "flex", background: "none", border: "none", }} className="X"><RxCross2 style={{ color: "white",padding:"10px",borderRadius: "20px" }} /></button>
-                  <p className="main_heading">Login or sign up</p>
-                  <p className="secondry_heading">You’ll get smarter responses and can upload files, images, and more.</p>
+              <div className="login_form" onClick={(e) => e.stopPropagation()}>
+                <button onClick={() => setloginbar(false)} style={{ fontSize: "20px", marginLeft: "auto", display: "flex", background: "none", border: "none", }} className="X"><RxCross2 style={{ color: "white", padding: "10px", borderRadius: "20px" }} /></button>
+                <p className="main_heading">Login or sign up</p>
+                <p className="secondry_heading">You’ll get smarter responses and can upload files, images, and more.</p>
 
-                  <button className="login_btns"><img src={google} alt="hello" />Continue with Google</button>
-                  <button className="login_btns"><img src={apple} alt="hello" />Continue with Apple</button>
-                  <button className="login_btns"><img src={phone} alt="hello" />Continue with Phone</button>
+                <button className="login_btns"><img src={google} alt="hello" />Continue with Google</button>
+                <button className="login_btns"><img src={apple} alt="hello" />Continue with Apple</button>
+                <button className="login_btns"><img src={phone} alt="hello" />Continue with Phone</button>
 
-                  <div className="divider">
-                    <div className="line"></div>
-                    <div className="or">OR</div>
-                    <div className="line"></div>
-                  </div>
-                  <input type="text" placeholder="Email Address" className="inpt" />
-                  <button className="submit_btn">Continue</button>
-
+                <div className="divider">
+                  <div className="line"></div>
+                  <div className="or">OR</div>
+                  <div className="line"></div>
                 </div>
-              
+                <input type="text" placeholder="Email Address" className="inpt" />
+                <button className="submit_btn">Continue</button>
+
+              </div>
+
             </>
             )}
 

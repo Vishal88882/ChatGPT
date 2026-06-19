@@ -20,18 +20,47 @@ aside {
     display: flex;
     border-right: 1px solid #171717;
     min-width: 260px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.1s ease-in-out;
     overflow: hidden;
 
 }
 
 aside.closed {
-    width: 0px;
-    min-width: 0px;
-    border-right: none;
-    padding: 0px;
+    width: 55px;
+    min-width: 20px;
     background: black;
     cursor: e-resize;
+}
+aside.closed .just_div:hover{
+    cursor: pointer;
+}
+aside.closed .openai_ai_logo{
+    display: none;
+}
+
+aside.closed .slidebar_logo_closed {
+    display: none;
+}
+
+aside.closed .button_icon {
+    display: none;
+}
+
+aside.closed .just_div>span {
+    gap: 10px;
+    margin-left: 0px;
+}
+
+aside.closed .just_div>span>button {
+    display: none;
+}
+
+aside.closed .table_of_content {
+    display: none;
+}
+
+aside.closed footer {
+    display: none;
 }
 
 .just_div {
@@ -61,6 +90,9 @@ aside nav {
     padding: 7px;
     color: white
 }
+.openai_ai_logo:hover{
+    cursor:e-resize
+}
 
 .slidebar_logo {
     width: 18px;
@@ -73,6 +105,10 @@ aside nav {
     cursor: e-resize;
     padding: 6px;
     margin-right: 16px;
+}
+
+.svg_images {
+    width: 20px;
 }
 
 .slidebar_logo_closed {
@@ -116,12 +152,10 @@ aside nav {
 
 .button {
     width: 90%;
-    font: 22px;
     background: transparent;
     color: white;
     text-align: center;
     display: flex;
-    gap: 5px;
     border: none;
     padding: 5px;
     text-align: center;
@@ -132,26 +166,14 @@ aside nav {
     background-color: rgba(100, 100, 100, 0.2);
 }
 
-.fa-pen-to-square {
-    font-size: 16px;
-    color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-}
-
-.fa-sistrix {
-    font-size: 18px;
-    color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-}
-
 .just_div>span {
     justify-content: center;
     display: flex;
     flex-direction: row;
     width: 85%;
     margin-left: 10px;
+    gap: 3px;
+    
     padding: 5px;
     background-color: black;
 
@@ -166,6 +188,7 @@ aside nav {
 .button:hover {
     background-color: rgb(100, 100, 100, 0);
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .table_of_content {
@@ -175,7 +198,6 @@ aside nav {
     display: flex;
     overflow-x: hidden;
     flex-direction: column;
-    /* border-top: 1px solid #171717; */
     height: 76vh;
     flex: 0 1 auto;
 
@@ -441,20 +463,6 @@ aside nav {
 
 }
 
-/* .chat_bot>nav>span>span>span>button {
-    color: rgb(233, 231, 234);
-    background-color: black;
-    border: none;
-    font-size: 12px;
-    font-weight: 400;
-    display: flex;
-    padding: 10px;
-    border-radius: 10px;
-    justify-content: space-between;
-    align-items: center;
-    gap: 5px;
-    margin-right: 10px;
-} */
 .first_btn {
     color: rgb(233, 231, 234);
     background-color: black;
@@ -482,6 +490,7 @@ aside nav {
     width: 10vh;
     align-items: center;
     display: flex;
+    cursor: pointer;
     font-weight: 600;
     font-size: 14px;
     height: 4vh;
@@ -504,7 +513,8 @@ aside nav {
     align-items: center;
     display: flex;
     width: 140px;
-
+    height:4.5vh;
+    cursor: pointer;
     justify-content: center;
 }
 
@@ -719,10 +729,10 @@ aside nav {
 
 }
 
-.X :hover{
+.X :hover {
     background-color: rgba(100, 100, 100, 0.4);
     transition: all 0.1s ease-in-out;
-    
+
 
 }
 
@@ -808,6 +818,7 @@ aside nav {
     border-radius: 25px;
     background-color: #000000;
     border: none;
+    color: rgb(211, 211, 211);
     border: 1px solid rgb(175, 175, 175);
     padding: 10px;
     padding-left: 20px;
