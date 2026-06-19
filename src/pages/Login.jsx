@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SiOpenai } from "react-icons/si";
-import { LuGraduationCap, LuNewspaper, LuPanelLeft } from "react-icons/lu";
+import { LuGraduationCap, LuNewspaper, LuPanelLeft, LuPhone } from "react-icons/lu";
 import { RxCross2 } from "react-icons/rx";
+import apple from "../assets/apple.svg"
+import phone from "../assets/phone.svg"
+import google from "../assets/google.svg"
 
 import "../App.css";
 import book from "../assets/book.svg";
@@ -26,7 +29,8 @@ export default function Login() {
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const [sendActive, setsendActive] = useState("");
-  const [ loginbar, setloginbar ] = useState(true);
+  const [loginbar, setloginbar] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   function handleInputChange(event) {
     const inputValue = event.target.value;
@@ -36,9 +40,24 @@ export default function Login() {
     setsendActive(inputValue);
   }
 
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth < 768) {
+        setIsOpen(false);
+
+      } else {
+        setIsOpen(true);
+      }
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
 
   return (
-    <div className="container" onClick={() => setDropdown(false)}>
+    <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
       <aside className={isOpen ? "sidebar" : "sidebar closed"}>
         <div className="just_div">
           <nav>
@@ -88,17 +107,33 @@ export default function Login() {
             <button className="first_btn" onClick={(e) => { e.stopPropagation(); setDropdown(true); }}>
               ChatGPT <img src={chatgpt} alt="ChatGPT" />
             </button>
-             {loginbar && (
-          <div className="login_form">
-            <span><RxCross2 style={{fontSize:"20px", marginLeft:"auto", display:"flex"}}/></span>
-            <p className="main_heading">Login or sign up</p>
+            {loginbar && (<>
+              <div className="overlay" ></div>
+                <div className="login_form" onClick={(e) => e.stopPropagation()}>
+                  <button onClick={() => setloginbar(false)} style={{ fontSize: "20px", marginLeft: "auto", display: "flex", background: "none", border: "none", }} className="X"><RxCross2 style={{ color: "white",padding:"10px",borderRadius: "20px" }} /></button>
+                  <p className="main_heading">Login or sign up</p>
+                  <p className="secondry_heading">You’ll get smarter responses and can upload files, images, and more.</p>
 
-            </div>
-        )}
+                  <button className="login_btns"><img src={google} alt="hello" />Continue with Google</button>
+                  <button className="login_btns"><img src={apple} alt="hello" />Continue with Apple</button>
+                  <button className="login_btns"><img src={phone} alt="hello" />Continue with Phone</button>
+
+                  <div className="divider">
+                    <div className="line"></div>
+                    <div className="or">OR</div>
+                    <div className="line"></div>
+                  </div>
+                  <input type="text" placeholder="Email Address" className="inpt" />
+                  <button className="submit_btn">Continue</button>
+
+                </div>
+              
+            </>
+            )}
 
             <span>
               <span>
-                <button className="first_btn first_btn_1" onClick={(e) =>{e.stopPropagation() ;setloginbar(!loginbar)}}>Log in</button>
+                <button className="first_btn first_btn_1" onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Log in</button>
               </span>
               <span>
                 <button className="first_btn_2">Signup for free</button>
@@ -106,7 +141,7 @@ export default function Login() {
             </span>
           </span>
         </nav>
-       
+
 
         {dropdown && (
           <div className="dropdown_css">
