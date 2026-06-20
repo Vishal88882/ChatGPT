@@ -16,74 +16,26 @@ app.post("/signup", async (req, res) => {
     try {
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
-        const { email} = req.body;
+        const { email } = req.body;
         const code = Math.floor(1000 + Math.random() * 9000)
-        if (!email )
-            return res.status(404).json({ message: "Data Missing"})
+        if (!email)
+            return res.status(404).json({ message: "Data Missing" })
         else {
             // check to see if any user with the given email address already exists in the usercontent arrray
-            
+
             const userExists = usercontent.some(el => el.email === email);
             if (userExists) throw new Error("User already exists!");
 
             usercontent.push(req.body)
-            userExists.code = code
+            if (!userExists) throw new Error("Your're not our user");
+            else {
 
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            res.status(200).json({
-                message: "Otp Sent to your given email"
-            })
-        }
-    } catch (error) {
-        console.log("Error : ", error.message);
-        res.status(401).json({ message: error.message });
-    }
-})
-
-app.post("/email_verify", async (req, res) => {
-
-    try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-
-        const usercontent = JSON.parse(filecontent)
-        const { code } = req.body;
-        const userExists = usercontent.some(el => el.code == code);
-        if (!userExists) throw new Error("Server error");
-        else {
-            res.status(200).json({
-                message: "verification successfull"
-            })
-        }
-    } catch (error) {
-        console.log("Error : ", error.message);
-        res.status(401).json({ message: error.message });
-    }
-})
-
-app.post("/login", async (req, res) => {
-
-    try {
-
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-        const usercontent = JSON.parse(filecontent)
-        const { password } = req.body;
-        const otp = Math.floor(1000 + Math.random() * 9000)
-
-
-        const userExists = usercontent.find(el => el.email == email || el.code == code);
-
-        if (!userExists) throw new Error("Your're not our user");
-        else {
-
-            userExists.otp = otp
-
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            console.log("Otp Sent!")
-        }
-
-        const Mail_Template = `<!DOCTYPE html>
+                userExists.code = code
+                const stringusercontent = JSON.stringify(usercontent, null, 2)
+                await fs.writeFile("./users.json", stringusercontent)
+                console.log("Otp Sent!")
+            }
+            const Mail_Template = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -164,85 +116,79 @@ app.post("/login", async (req, res) => {
 </html>
 `
 
-        const transport = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "codewithvishal001@gmail.com",
-                pass: "gxgo vita sphh glwl"
-            }
-        });
-        transport.sendMail({
-            to: email,
-            from: "codewithvishal001@gmail.com",
-            subject: "Reset Your Password",
-            html: Mail_Template,
-            text: "Don't share this OTP with anyone!"
-        })
-            .then(() => {
-                console.log("Mail sent")
+            const transport = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "codewithvishal001@gmail.com",
+                    pass: "gxgo vita sphh glwl"
+                }
+            });
+            transport.sendMail({
+                to: email,
+                from: "codewithvishal001@gmail.com",
+                subject: "Reset Your Password",
+                html: Mail_Template,
+                text: "Don't share this OTP with anyone!"
             })
-            .catch((error) => {
-                console.log("Error: ", error.message)
+                .then(() => {
+                    console.log("Mail sent")
+                })
+                .catch((error) => {
+                    console.log("Error: ", error.message)
+                })
+
+            const stringusercontent = JSON.stringify(usercontent, null, 2)
+            await fs.writeFile("./users.json", stringusercontent)
+            res.status(200).json({
+                message: "Otp Sent to your given email"
             })
+        }
+    } catch (error) {
+        console.log("Error : ", error.message);
+        res.status(401).json({ message: error.message });
+    }
+})
 
-        const Phone = userExists.phone
+app.post("/email_verify", async (req, res) => {
 
-        try {
-            const SMS = await fetch("https://2factor.in/API/V1/7fa29106-533c-11f1-9800-0200cd936042/SMS/+91" + Phone + "/" + otp + "/VISH2026");
-            const response = await SMS.json()
-            res.json({ message: "OTP sent!" })
-        } catch (error) {
+    try {
+        const filecontent = await fs.readFile("./users.json", "utf-8")
 
-            res.status(200).json({ message: "Error Occured!" })
+        const usercontent = JSON.parse(filecontent)
+        const { code } = req.body;
+        const userExists = usercontent.some(el => el.code == code);
+        if (!userExists) throw new Error("Server error");
+        else {
+            res.status(200).json({
+                message: "verification successfull"
+            })
+        }
+    } catch (error) {
+        console.log("Error : ", error.message);
+        res.status(401).json({ message: error.message });
+    }
+})
+
+app.post("/login", async (req, res) => {
+
+    try {
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+        const usercontent = JSON.parse(filecontent)
+        const { password } = req.body;
+        const userExists = usercontent.find(el => el.email == email || el.code == code);
+
+        if(!userExists){
+            res.status(202).json({message : "server error"});
         }
 
+        const stringusercontent = JSON.stringify(usercontent, null, 2)
+            await fs.writeFile("./users.json", stringusercontent)
+            res.status(200).json({
+                message: "Login succesfull"
+            })
     } catch (error) {
         res.status(401).json({ message: "error" })
     }
 })
 
-app.post("/reset_password", async (req, res) => {
-
-    try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-        const usercontent = JSON.parse(filecontent)
-        const { email, newpassword, otp } = req.body
-
-        if (!email || !newpassword || !otp) {
-            throw new Error("Email, OTP, and new password are required")
-        }
-
-        const request_exist = usercontent.find(el => el.email == email && el.otp == otp)
-        if (!request_exist) {
-            res.status(401).json({ message: "Make Request First!" })
-        }
-
-        request_exist.password = newpassword
-        request_exist.otp = undefined
-
-        const stringusercontent = JSON.stringify(usercontent, null, 2)
-        await fs.writeFile("./users.json", stringusercontent)
-        res.status(200).json({ message: "Password Reset!" })
-    } catch (error) {
-        console.log("Error : ", error.message)
-        res.status(401).json({ message: error.message })
-    }
-})
-
-app.post("/userdetails", async (req, res) => {
-
-    const filecontent = await fs.readFile("./users.json", "utf-8")
-    const usercontent = JSON.parse(filecontent)
-    const { email, password } = req.body;
-    const userExists = usercontent.find(el => el.email == email && el.password == password)
-    const User_Details = { "Name": userExists.name, "Username": userExists.username, "Email": userExists.email, "Phone": userExists.phone }
-
-    if (!userExists) {
-        res.status(401).json({ message: "Invalid Email!" })
-    } else {
-        res.status(200).json(User_Details)
-    }
-}
-)
-
-app.listen(8000, console.log("8000"));
+app.listen(9000,console.log("Working ✅"));
