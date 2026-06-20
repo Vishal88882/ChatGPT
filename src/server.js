@@ -16,18 +16,43 @@ app.post("/signup", async (req, res) => {
     try {
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
-        const { name, username, email, password, phone } = req.body;
-        if (!name || !username || !email || !password || !phone)
-            return res.status(404).json({ message: "Data Missing" })
+        const { email} = req.body;
+        const code = Math.floor(1000 + Math.random() * 9000)
+        if (!email )
+            return res.status(404).json({ message: "Data Missing"})
         else {
             // check to see if any user with the given email address already exists in the usercontent arrray
-            const userExists = usercontent.some(el => el.username === username || el.email === email);
+            
+            const userExists = usercontent.some(el => el.email === email);
             if (userExists) throw new Error("User already exists!");
+
             usercontent.push(req.body)
+            userExists.code = code
+
             const stringusercontent = JSON.stringify(usercontent, null, 2)
             await fs.writeFile("./users.json", stringusercontent)
             res.status(200).json({
-                message: "User Signed Up"
+                message: "Otp Sent to your given email"
+            })
+        }
+    } catch (error) {
+        console.log("Error : ", error.message);
+        res.status(401).json({ message: error.message });
+    }
+})
+
+app.post("/email_verify", async (req, res) => {
+
+    try {
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+
+        const usercontent = JSON.parse(filecontent)
+        const { code } = req.body;
+        const userExists = usercontent.some(el => el.code == code);
+        if (!userExists) throw new Error("Server error");
+        else {
+            res.status(200).json({
+                message: "verification successfull"
             })
         }
     } catch (error) {
@@ -39,34 +64,14 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
 
     try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-
-        const usercontent = JSON.parse(filecontent)
-        const { email, password } = req.body;
-        const userExists = usercontent.some(el => el.email == email && el.password == password);
-        if (!userExists) throw new Error("Signed up first!");
-        else {
-            res.status(200).json({
-                message: "User Loged In"
-            })
-        }
-    } catch (error) {
-        console.log("Error : ", error.message);
-        res.status(401).json({ message: error.message });
-    }
-})
-
-app.post("/forget_password", async (req, res) => {
-
-    try {
 
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
-        const { email } = req.body;
+        const { password } = req.body;
         const otp = Math.floor(1000 + Math.random() * 9000)
 
 
-        const userExists = usercontent.find(el => el.email == email);
+        const userExists = usercontent.find(el => el.email == email || el.code == code);
 
         if (!userExists) throw new Error("Your're not our user");
         else {

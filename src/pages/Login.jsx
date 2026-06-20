@@ -58,6 +58,23 @@ export default function Login() {
   }, []);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
     <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
       <aside className={isOpen ? "sidebar" : "sidebar closed"}>
@@ -134,7 +151,7 @@ export default function Login() {
                   <div className="line"></div>
                 </div>
                 <input type="text" placeholder="Email Address" className="inpt" autoFocus />
-                <button className="submit_btn" onClick={() => navigate("/Signup")}>Continue</button>
+                <button className="submit_btn" onClick={() => navigate("/Signup_with_code")}>Continue</button>
 
               </div>
 
@@ -180,7 +197,7 @@ export default function Login() {
           <p>What’s on the agenda today?</p>
           <span className="fortext">
             <img src={input1} alt="Input 1" className="svg" />
-            <input autoFocus placeholder="SVG by jock" onChange={handleInputChange}></input>
+            <input autoFocus onChange={handleInputChange}></input>
             <img src={input2} alt="Input 2" className="svg" />
             {sendActive ? (
               <img src={send} alt="Send" className="svg" />

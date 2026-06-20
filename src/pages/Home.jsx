@@ -64,7 +64,6 @@ export default function App() {
                         <span><img src={search} alt="" className="svg_images" /><button className="button">Search chats</button></span>
                         <span><img src={book} alt="Library" className="svg_images" /><button className="button">Library</button></span>
                         <span><img src={project} alt="Projects" className="svg_images" /><button className="button">Projects</button></span>
-                        
                         <span><img src={apps} alt="Apps" className="svg_images" /><button className="button">Apps</button></span>
                         <span><img src={codex} alt="Codex" className="svg_images" /><button className="button">Codex</button><img src={arrow} className="arrow" alt="Arrow" /></span>
                         <span><img src={more} alt="More" className="svg_images" /><button className="button">More</button></span>
@@ -143,7 +142,7 @@ export default function App() {
                         <p>What’s on the agenda today?</p>
                         <span className="fortext">
                             <img src={input1} alt="Input 1" className="svg" />
-                            <input autoFocus placeholder="SVG by jock" onChange={handleInputChange}></input>
+                            <input autoFocus onChange={handleInputChange}></input>
                             <img src={input2} alt="Input 2" className="svg" />
                             {sendActive ? (
                                 <img src={send} alt="Send" className="svg" />

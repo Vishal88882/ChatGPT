@@ -18,7 +18,7 @@ aside {
     flex-direction: column;
     justify-content: flex-start;
     display: flex;
-    border-right: 1px solid #171717;
+    border-right: 2px solid #171717;
     min-width: 260px;
     transition: all 0.1s ease-in-out;
     overflow: hidden;
@@ -34,6 +34,9 @@ aside.closed {
 
 aside.closed .just_div:hover {
     cursor: pointer;
+}
+aside.closed .openai_logo{
+    cursor:e-resize;
 }
 
 aside.closed .openai_ai_logo {
@@ -51,6 +54,7 @@ aside.closed .button_icon {
 aside.closed .just_div>span {
     gap: 10px;
     margin-left: 0px;
+    margin-top: 0.5vh;
 }
 
 aside.closed .just_div>span>button {
@@ -90,7 +94,8 @@ aside nav {
 .openai_logo {
     font-size: 20px;
     padding: 7px;
-    color: white
+    color: white;
+    cursor: pointer;
 }
 
 .openai_ai_logo:hover {
@@ -181,8 +186,7 @@ aside nav {
     width: 85%;
     margin-left: 10px;
     gap: 3px;
-
-    padding: 5px;
+    padding: 2px;
     background-color: black;
 
 }
