@@ -18,22 +18,56 @@ aside {
     flex-direction: column;
     justify-content: flex-start;
     display: flex;
-    border-right: 1px solid #171717;
+    border-right: 2px solid #171717;
     min-width: 260px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.1s ease-in-out;
     overflow: hidden;
 
 }
 
 aside.closed {
-    width: 2px;
-    min-width: 2px;
-    border-right: none;
-    padding: 0px;
+    width: 55px;
+    min-width: 20px;
     background: black;
     cursor: e-resize;
 }
 
+aside.closed .just_div:hover {
+    cursor: pointer;
+}
+aside.closed .openai_logo{
+    cursor:e-resize;
+}
+
+aside.closed .openai_ai_logo {
+    display: none;
+}
+
+aside.closed .slidebar_logo_closed {
+    display: none;
+}
+
+aside.closed .button_icon {
+    display: none;
+}
+
+aside.closed .just_div>span {
+    gap: 10px;
+    margin-left: 0px;
+    margin-top: 0.5vh;
+}
+
+aside.closed .just_div>span>button {
+    display: none;
+}
+
+aside.closed .table_of_content {
+    display: none;
+}
+
+aside.closed footer {
+    display: none;
+}
 
 .just_div {
     display: flex;
@@ -60,7 +94,12 @@ aside nav {
 .openai_logo {
     font-size: 20px;
     padding: 7px;
-    color: white
+    color: white;
+    cursor: pointer;
+}
+
+.openai_ai_logo:hover {
+    cursor: e-resize
 }
 
 .slidebar_logo {
@@ -76,6 +115,10 @@ aside nav {
     margin-right: 16px;
 }
 
+.svg_images {
+    width: 20px;
+}
+
 .slidebar_logo_closed {
     width: 24px;
     height: 20px;
@@ -87,8 +130,12 @@ aside nav {
     cursor: e-resize;
     padding: 10px;
     margin-right: 20px;
-    background-color: #3f3f3f79;
 
+}
+
+.slidebar_logo_closed:hover {
+    background-color: #3f3f3f79;
+    transition: all 0.2s ease-in-out;
 }
 
 .openai_logo:hover {
@@ -101,24 +148,27 @@ aside nav {
     border-radius: 5px;
 }
 
-.codex:hover .arrow {
+.button:hover + .arrow {
     border-radius: 5px;
-    color: white;
     display: flex;
+    display: inline-block;
+
 }
 
 .arrow {
     display: none;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+
 }
 
 .button {
     width: 90%;
-    font: 22px;
     background: transparent;
     color: white;
     text-align: center;
     display: flex;
-    gap: 5px;
     border: none;
     padding: 5px;
     text-align: center;
@@ -129,27 +179,14 @@ aside nav {
     background-color: rgba(100, 100, 100, 0.2);
 }
 
-.fa-pen-to-square {
-    font-size: 16px;
-    color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-}
-
-.fa-sistrix {
-    font-size: 18px;
-    color: rgb(255, 255, 255);
-    display: flex;
-    align-items: center;
-}
-
 .just_div>span {
     justify-content: center;
     display: flex;
     flex-direction: row;
     width: 85%;
     margin-left: 10px;
-    padding: 5px;
+    gap: 3px;
+    padding: 2px;
     background-color: black;
 
 }
@@ -163,6 +200,7 @@ aside nav {
 .button:hover {
     background-color: rgb(100, 100, 100, 0);
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .table_of_content {
@@ -172,7 +210,6 @@ aside nav {
     display: flex;
     overflow-x: hidden;
     flex-direction: column;
-    /* border-top: 1px solid #171717; */
     height: 76vh;
     flex: 0 1 auto;
 
@@ -438,20 +475,6 @@ aside nav {
 
 }
 
-/* .chat_bot>nav>span>span>span>button {
-    color: rgb(233, 231, 234);
-    background-color: black;
-    border: none;
-    font-size: 12px;
-    font-weight: 400;
-    display: flex;
-    padding: 10px;
-    border-radius: 10px;
-    justify-content: space-between;
-    align-items: center;
-    gap: 5px;
-    margin-right: 10px;
-} */
 .first_btn {
     color: rgb(233, 231, 234);
     background-color: black;
@@ -468,7 +491,7 @@ aside nav {
 }
 
 .first_btn:hover {
-    background-color: rgba(100, 100, 100, 0.4);
+    background-color: rgba(231, 231, 231, 0.2);
     transition: all 0.2sa ease;
 }
 
@@ -476,24 +499,90 @@ aside nav {
     color: rgb(0, 0, 0);
     background-color: white;
     border-radius: 20px;
-    width: 70px;
+    width: 10vh;
     align-items: center;
     display: flex;
+    cursor: pointer;
     font-weight: 600;
+    font-size: 14px;
+    height: 4vh;
     justify-content: center;
+}
+
+.first_btn_1:hover {
+    background-color: #dedede;
+
 }
 
 .first_btn_2 {
     color: rgb(255, 255, 255);
-    background-color: rgba(100, 100, 100, 0.2);
+    background-color: rgba(100, 100, 100, 0.4);
     border-radius: 20px;
-    border: 1px solid rgb(34, 34, 34);
-    padding: 10px;
-    font-size: 12px;
+    border: 1px solid rgb(85, 85, 85);
+    padding: 2px;
+    font-size: 14px;
     font-weight: 500;
     align-items: center;
     display: flex;
+    width: 140px;
+    height: 4.5vh;
+    cursor: pointer;
     justify-content: center;
+}
+
+.dropdown_css {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    width: 280px;
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 20px;
+    position: fixed;
+    top: 44px;
+    left: 280px;
+}
+
+.upper_div {
+    flex-direction: row;
+    display: flex;
+    padding: 10px;
+    justify-content: flex-start;
+    border-radius: 15px;
+}
+
+.upper_div:hover {
+    background-color: rgba(100, 100, 100, 0.4);
+    transition: all 0.1s ease;
+}
+
+.upper_div>button {
+    background-color: rgb(21, 21, 21);
+    color: white;
+    padding: 6px;
+    outline: none;
+    border: 1px solid rgb(62, 62, 62);
+    margin-left: auto;
+    border-radius: 15px;
+}
+
+.upper_div_sub {
+    display: flex;
+    flex-direction: column;
+    margin-left: 6px;
+}
+
+.main_text {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.small_text {
+    font-size: 10px;
+    font-weight: 200;
+}
+
+.tick {
+    margin-left: auto;
 }
 
 .chat_box {
@@ -576,17 +665,38 @@ aside nav {
 }
 
 .suggestions_1 {
-    background-color: rgba(100, 100, 100, 0.2);
+    background-color: rgba(100, 100, 100, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width:80%
+    width: 55%;
+    margin-top: 5px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    display: flex;
 }
-.suggestions_1>p{
-    color: rgb(126, 126, 126);
-    border-top: 1px solid rgb(141, 141, 141);
+
+.suggestions_1>p {
+    color: rgb(163, 163, 163);
     padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    font-weight: 100px;
+
+}
+
+.suggestions_1>div {
+    width: 52%;
+    height: 1px;
+    background-color: rgb(75, 75, 75);
+}
+
+.suggestions_1>p:hover {
+    cursor: pointer;
 }
 
 .button_icon>button {
@@ -610,4 +720,267 @@ aside nav {
     background-color: rgba(100, 100, 100, 0.2);
     transition: all 0.2s ease;
 
+}
+
+.login_form {
+    background-color: #1A1A1A;
+    color: white;
+    width: 32vw;
+    max-width: 360px;
+    min-width: 300px;
+    height: 62vh;
+    padding: 15px;
+    border-radius: 15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+
+}
+
+.X :hover {
+    background-color: rgba(100, 100, 100, 0.4);
+    transition: all 0.1s ease-in-out;
+
+
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(8px);
+
+}
+
+.main_heading {
+    font-size: 28px;
+    font-weight: 400;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    color:white;
+    justify-content: center;
+
+}
+
+.secondry_heading {
+    font-size: 14px;
+    font-weight: 200;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.login_btns {
+    background: none;
+    border-radius: 25px;
+    border: none;
+    border: 1px solid rgb(82, 82, 82);
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    gap: 8px;
+    font-size: 14px;
+
+}
+
+.login_btns:hover {
+    background-color: #4e4e4e;
+    transition: all 0.1s ease-in-out;
+}
+
+.divider {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.divider .line {
+    flex: 1;
+    height: 2px;
+    background-color: rgb(73, 73, 73);
+}
+
+.or {
+    font-size: 14px;
+    padding: 0 10px;
+    text-align: center;
+    color: rgb(200, 200, 200);
+    font-weight: 600;
+}
+
+.inpt {
+    border-radius: 25px;
+    background-color: #000000;
+    border: none;
+    color: rgb(211, 211, 211);
+    border: 1px solid rgb(175, 175, 175);
+    padding: 10px;
+    padding-left: 20px;
+    margin-top: 20px;
+    display: flex;
+}
+
+.inpt::placeholder {
+    font-size: 14px;
+    color: rgb(209, 209, 209);
+    font-weight: 200;
+}
+
+.submit_btn {
+    border-radius: 25px;
+    background-color: rgb(231, 231, 231);
+    margin-top: 10px;
+    color: black;
+    padding: 6px;
+    font-weight: 400;
+    font-size: 16px;
+    border: none;
+}
+.disclaimer{
+    padding-bottom: 30px;
+    text-align: center;
+    font-weight: 200;
+    font-size: 14px;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+.disclaimer span {
+    text-decoration: underline;
+}
+.background {
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    justify-content: center;
+}
+
+.background_inner {
+    height: 50vh;
+    width: 18vw;
+    margin-top: 10px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inpt_new {
+    border-radius: 25px;
+    background-color: #000000;
+    border: none;
+    color: rgb(163, 163, 163);
+    border: 1px solid rgb(69, 69, 69);
+    padding: 12px;
+    width: 90%;
+    margin-top: 8px;
+    display: flex;
+}
+
+.inpt_new::placeholder {
+    font-size: 14px;
+    color: rgb(209, 209, 209);
+    font-weight: 200;
+    padding-left: 6px;
+}
+
+.button_new {
+    width: 95%;
+    background-color: rgb(224, 224, 224);
+    color: rgb(0, 0, 0);
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    height: 5vh;
+    border-radius: 20px;
+    margin-top: 8px;
+    display: flex;
+    border: none;
+    border-color: 1px solid rgb(0, 0, 0);
+
+}
+.button_new_other {
+    width: 95%;
+    color: rgb(255, 255, 255);
+    background: none;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    height: 5vh;
+    border-radius: 20px;
+    margin-top: 8px;
+    display: flex;
+    border: 1px solid rgb(137, 137, 137);
+}
+
+.button_new:hover {
+    background-color: rgb(196, 196, 196);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.divider_new {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.line_new {
+    flex: 1;
+    height: 1px;
+    background: #dadada;
+}
+
+.or_new {
+    padding: 0 12px;
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.caution{
+    color: rgb(255, 255, 255);
+    margin-top:20px;
+    font-weight: 200;
+    text-decoration: underline;
+    gap:8px;
+    display: flex;
+}
+.atag{
+    color: white;
+    font-weight: 500;
+    font-size: x-large;
+    text-decoration: none;
+    position: fixed;
+    top:20px;
+    left:20px;
+}
+.button_new_other:hover{
+    transition: all 0.1s ease-in-out;
+    background-color: rgb(49, 49, 49);
+    cursor: pointer;
 }
