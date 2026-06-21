@@ -163,7 +163,7 @@ export default function Login() {
                 <button className="first_btn first_btn_1" onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Log in</button>
               </span>
               <span>
-                <button className="first_btn_2" onClick={() => navigate("/Signup")}>Signup for free</button>
+                <button className="first_btn_2" onClick={() => navigate("/Signup_with_code")}>Signup for free</button>
               </span>
             </span>
           </span>
