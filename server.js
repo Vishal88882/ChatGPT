@@ -12,8 +12,6 @@ const cors = require('cors');
 app.use(cors());
 
 
-
-
 app.post("/Sending_code", async (req, res) => {
 
     try {
@@ -33,7 +31,8 @@ app.post("/Sending_code", async (req, res) => {
 
             let user = {
                 ...req.body,
-                code: code
+                code: code,
+                password: ""
             };
             usercontent.push(user)
 
@@ -155,37 +154,6 @@ app.post("/Sending_code", async (req, res) => {
     }
 })
 
-// app.post("/signup_password", async (req, res) => {
-
-//     try {
-//         const filecontent = await fs.readFile("./users.json", "utf-8")
-//         const usercontent = JSON.parse(filecontent)
-//         const { email } = req.body;
-//         const code = Math.floor(1000 + Math.random() * 9000)
-
-//         if (!email)
-//             return res.status(404).json({ message: "Data Missing" })
-
-//         else {
-//             // check to see if any user with the given email address already exists in the usercontent arrray
-//             const userExists = usercontent.some(el => el.email == email || el.password == password);
-
-//             if (userExists) throw new Error("User already exists!");
-
-//             usercontent.push(req.body)
-
-//             const stringusercontent = JSON.stringify(usercontent, null, 2)
-//             await fs.writeFile("./users.json", stringusercontent)
-//             console.log("Code Sent!")
-
-//         }
-//     } catch (error) {
-//         console.log("Error : ", error.message);
-//         res.status(401).json({ message: error.message });
-//     }
-// })
-
-
 app.post("/Login_signup_continue", async (req, res) => {
 
     try {
@@ -193,8 +161,8 @@ app.post("/Login_signup_continue", async (req, res) => {
 
         const usercontent = JSON.parse(filecontent)
         const { email, code } = req.body;
-        const userExists = usercontent.find(el => el.code == code && el.email == email && el.name == name);
-        if (userExists) {
+        const userExists = usercontent.find(el => el.code == code && el.email == email);
+        if (email && code && userExists.password.length !== 0) {
 
             delete userExists.code
             const stringusercontent = JSON.stringify(usercontent, null, 2)
@@ -202,12 +170,12 @@ app.post("/Login_signup_continue", async (req, res) => {
             res.status(200).json({
                 message: "Login Successfull"
             })
+            console.log(userExists.password.length)
             console.log("Hello1")
         }
         else {
 
             delete userExists.code
-
             const stringusercontent = JSON.stringify(usercontent, null, 2)
             await fs.writeFile("./users.json", stringusercontent)
             res.status(200).json({
@@ -218,6 +186,33 @@ app.post("/Login_signup_continue", async (req, res) => {
     } catch (error) {
         console.log("Error : ", error.message);
         res.status(401).json({ message: error.message });
+    }
+})
+
+app.post("/new_password", async (req, res) => {
+
+    try {
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+        const usercontent = JSON.parse(filecontent)
+        const { email, newpassword } = req.body;
+
+        const userExists = usercontent.find(el => el.email === email);
+
+        if (!userExists) {
+            res.status(201).json({ message: "error2" })
+        }
+        if (newpassword.length >= 4) {
+            req.status(201).json({ message: "password should at least 4 character long" })
+        }
+        userExists.password = newpassword
+
+        const stringusercontent = JSON.stringify(usercontent, null, 2)
+        await fs.writeFile("./users.json", stringusercontent)
+        res.status(200).json({
+            message: "Login succesfull"
+        })
+    } catch (error) {
+        res.status(402).json({ message: "error1" })
     }
 })
 
@@ -247,8 +242,7 @@ app.post("/user_data", async (req, res) => {
     }
 })
 
-
-app.post("/Login_signup_password", async (req, res) => {
+app.post("/Login_password", async (req, res) => {
 
     try {
         const filecontent = await fs.readFile("./users.json", "utf-8")
@@ -257,12 +251,8 @@ app.post("/Login_signup_password", async (req, res) => {
 
         const userExists = usercontent.find(el => el.email === email || el.password == password);
 
-        if (userExists) {
-
-            userExists.password = password
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            res.status(202).json({ message: "Login Successfull" });
+        if (!userExists) {
+            res.status(202).json({ message: "Login failed" });
         }
         else {
 
@@ -278,7 +268,6 @@ app.post("/Login_signup_password", async (req, res) => {
         res.status(402).json({ message: "error1" })
     }
 })
-
 
 
 

@@ -1,5 +1,8 @@
 [
   {
-    "email": "codewithvishal001@gmail.com"
+    "email": "codewithvishal001@gmail.com",
+    "password": "2020222",
+    "name": "Vishal",
+    "age": "18"
   }
 ]
