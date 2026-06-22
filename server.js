@@ -12,35 +12,31 @@ const cors = require('cors');
 app.use(cors());
 
 
-app.post("/Sending_code", async (req, res) => {
+const otpStore = {};
+
+// Route :: 1
+
+app.post("/send_otp", async (req, res) => {
 
     try {
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
         const { email } = req.body;
+        const userExists = usercontent.find(el => el.email === email);
         const code = Math.floor(1000 + Math.random() * 9000)
-        const userExists = usercontent.some(el => el.email == email);
 
-        if (!email)
-            return res.status(404).json({ message: "Data Missing" })
-        else {
-            // check to see if any user with the given email address already exists in the usercontent arrray
-            const userExists = usercontent.some(el => el.email == email);
+        if (!userExists) {
+            usercontent.push({ email, password: "" });
+            await fs.writeFile("./users.json", JSON.stringify(usercontent, null, 2));
+        }
 
-            if (userExists) throw new Error("User already exists!");
+        otpStore[email] = code;
 
-            let user = {
-                ...req.body,
-                code: code,
-                password: ""
-            };
-            usercontent.push(user)
+        const stringusercontent = JSON.stringify(usercontent, null, 2)
+        await fs.writeFile("./users.json", stringusercontent)
+        console.log("Code Sent!")
 
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            console.log("Code Sent!")
-
-            const Mail_Template = `<!DOCTYPE html>
+        const Mail_Template = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -121,154 +117,121 @@ app.post("/Sending_code", async (req, res) => {
 </html>
 `
 
-            const transport = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: "codewithvishal001@gmail.com",
-                    pass: "gxgo vita sphh glwl"
-                }
-            });
-            transport.sendMail({
-                to: email,
-                from: "codewithvishal001@gmail.com",
-                subject: "Reset Your Password",
-                html: Mail_Template,
-                text: "Don't share this Code with anyone!"
+        const transport = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "codewithvishal001@gmail.com",
+                pass: "gxgo vita sphh glwl"
+            }
+        });
+        transport.sendMail({
+            to: email,
+            from: "codewithvishal001@gmail.com",
+            subject: "Reset Your Password",
+            html: Mail_Template,
+            text: "Don't share this Code with anyone!"
+        })
+            .then(() => {
+                console.log("Mail sent")
             })
-                .then(() => {
-                    console.log("Mail sent")
-                })
-                .catch((error) => {
-                    console.log("Error: ", error.message)
-                })
-
-
-
-            res.status(200).json({
-                message: "Code Sent to your given email"
+            .catch((error) => {
+                console.log("Error: ", error.message)
             })
-        }
+
+
+
+        res.status(200).json({
+            message: "Code Sent to your given email"
+        })
+
     } catch (error) {
         console.log("Error : ", error.message);
         res.status(401).json({ message: error.message });
     }
 })
 
-app.post("/Login_signup_continue", async (req, res) => {
+// Route :: 2
+
+app.post("/verify_otp", async (req, res) => {
 
     try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-
-        const usercontent = JSON.parse(filecontent)
         const { email, code } = req.body;
-        const userExists = usercontent.find(el => el.code == code && el.email == email);
-        if (email && code && userExists.password.length !== 0) {
 
-            delete userExists.code
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            res.status(200).json({
-                message: "Login Successfull"
-            })
-            console.log(userExists.password.length)
-            console.log("Hello1")
-        }
-        else {
+        if (!otpStore[email])
+            return res.status(400).json({ message: "OTP expired, request a new one" });
 
-            delete userExists.code
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            res.status(200).json({
-                message: "Email verified"
-            })
-            console.log("Hello")
+        if (otpStore[email] != code)
+            return res.status(400).json({ message: "Wrong OTP" });
+
+        delete otpStore[email];
+
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+        const usercontent = JSON.parse(filecontent)
+        const userExists = usercontent.find(el => el.email == email);
+
+        if (userExists.password !== "") {
+            return res.status(200).json({ status: "old_user" });
+        } else {
+            return res.status(200).json({ status: "new_user" });
         }
+
     } catch (error) {
         console.log("Error : ", error.message);
         res.status(401).json({ message: error.message });
     }
 })
 
-app.post("/new_password", async (req, res) => {
+// Route :: 3
+
+app.post("/login", async (req, res) => {
+    
+    try {
+        const { email, password } = req.body;
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+        const usercontent = JSON.parse(filecontent)
+        
+        const userExists = usercontent.find(el => el.email === email);
+        
+        if (!userExists) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (userExists.password !== password) {
+            return res.status(202).json({ message: "Wrong Password" });
+        }
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+})
+
+// Route :: 4
+
+app.post("/register", async (req, res) => {
 
     try {
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
-        const { email, newpassword } = req.body;
+        const { email, name, age, password } = req.body;
 
         const userExists = usercontent.find(el => el.email === email);
 
         if (!userExists) {
-            res.status(201).json({ message: "error2" })
-        }
-        if (newpassword.length >= 4) {
-            req.status(201).json({ message: "password should at least 4 character long" })
-        }
-        userExists.password = newpassword
-
-        const stringusercontent = JSON.stringify(usercontent, null, 2)
-        await fs.writeFile("./users.json", stringusercontent)
-        res.status(200).json({
-            message: "Login succesfull"
-        })
-    } catch (error) {
-        res.status(402).json({ message: "error1" })
-    }
-})
-
-app.post("/user_data", async (req, res) => {
-
-    try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-        const usercontent = JSON.parse(filecontent)
-        const { email, name, age } = req.body;
-
-        const userExists = usercontent.find(el => el.email === email || el.name == name || el.age == age);
-
-        if (!userExists) {
-            res.status(202).json({ message: "server error" });
+            res.status(202).json({ message: "User not found" });
         }
 
+        userExists.password = password
         userExists.name = name
         userExists.age = age
 
         const stringusercontent = JSON.stringify(usercontent, null, 2)
         await fs.writeFile("./users.json", stringusercontent)
+
         res.status(200).json({
-            message: "Login succesfull"
+            message: "Registred Successfully"
         })
     } catch (error) {
         res.status(402).json({ message: "error1" })
     }
 })
-
-app.post("/Login_password", async (req, res) => {
-
-    try {
-        const filecontent = await fs.readFile("./users.json", "utf-8")
-        const usercontent = JSON.parse(filecontent)
-        const { email, password } = req.body;
-
-        const userExists = usercontent.find(el => el.email === email || el.password == password);
-
-        if (!userExists) {
-            res.status(202).json({ message: "Login failed" });
-        }
-        else {
-
-            userExists.password = password
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            res.status(200).json({
-                message: "Login succesfull"
-            })
-        }
-
-    } catch (error) {
-        res.status(402).json({ message: "error1" })
-    }
-})
-
-
 
 app.listen(9000, console.log("Working ✅"));

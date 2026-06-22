@@ -143,7 +143,7 @@ export default function Login() {
 
                 <button className="login_btns"><img src={google} alt="hello" />Continue with Google</button>
                 <button className="login_btns"><img src={apple} alt="hello" />Continue with Apple</button>
-                <button className="login_btns"><img src={phone} alt="hello" />Continue with Phone</button>
+                <button className="login_btns" onClick={() => navigate("/New_User_Code")}><img src={phone} alt="hello" />Continue with Phone</button>
 
                 <div className="divider">
                   <div className="line"></div>
