@@ -1,38 +1,40 @@
 import "../App.css";
-import { useNavigate} from "react-router-dom";
-import {useLocation } from "react-router-dom";
-import {useRef} from "react"
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useRef } from "react"
 
 export default function App() {
     const navigate = useNavigate();
     const location = useLocation();
-    const passwordRef = useRef();
+    const nameRef = useRef();
+    const ageRef = useRef();
     const email = location.state?.email;
     const password = location.state?.password;
+    
+    
+    const handledetailsInput = async () => {
+        const name = nameRef.current?.value
+        const age= ageRef.current?.value
 
-    const handlepasswordInput = async () => {
-        console.log(passwordRef.current?.value);
-        const password = passwordRef.current?.value
-        console.log(password)
+        console.log(name , age)
 
-        if (!passwordRef.current?.value) {
+        if (!nameRef.current?.value || ! ageRef.current?.value) {
             return alert("Please fill complete details!");
         }
-        // console.log(userData);
         else {
             try {
-                const response = await fetch('http://localhost:9000/password', {
+                const response = await fetch('http://localhost:9000/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, password, name, age })
                 });
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert('Email verified');
-                    navigate("/User_details",{ state: { email,password }});
+                    alert('Logged in');
+                    navigate("/Home");
 
                 } else {
                     alert('Error: ' + (result.message || "Wrong password"));
@@ -47,18 +49,17 @@ export default function App() {
         <>
             <div className="background">
                 <a href="/Login" className="atag">ChatGpt</a>
-                <h1 className="main_heading">Create a password</h1>
-                <h3 className="secondry_heading" style={{color:"white", marginTop:"10px", width:"25%"}}>You’ll use this password to log in to ChatGPT and other OpenAI products</h3>
+                <h1 className="main_heading">Enter Your Details</h1>
                 <div className="background_inner">
-                    <input type="text" className="inpt_new" value={email} />
-                    <input type="text" className="inpt_new" placeholder="Enter you password" autoFocus ref={passwordRef}/>
-                    <button className="button_new" onClick={handlepasswordInput}>Continue</button>
+                    <input type="text" className="inpt_new" placeholder="Enter your name" ref={nameRef} autoFocus />
+                    <input type="text" className="inpt_new" placeholder="Enter you age" ref={ageRef} />
+                    <button className="button_new" onClick={handledetailsInput}>Continue</button>
                     <div className="divider_new">
                         <div className="line_new"></div>
                         <div className="or_new">OR</div>
                         <div className="line_new"></div>
                     </div>
-                    <button className="button_new_other">Signup with one time code</button>
+                    {/* <button className="button_new_other">Signup with one time code</button> */}
                     <h5 className="caution">Terms of Use <span>|</span> Privacy Policy</h5>
                 </div>
             </div>

@@ -25,7 +25,7 @@ app.post("/send_otp", async (req, res) => {
         const { email } = req.body;
         const userExists = usercontent.find(el => el.email === email);
         const code = Math.floor(1000 + Math.random() * 9000)
-
+        console.log(code)
         if (!userExists) {
             usercontent.push({ email, password: "" });
             await fs.writeFile("./users.json", JSON.stringify(usercontent, null, 2));
@@ -195,13 +195,13 @@ app.post("/login", async (req, res) => {
         const userExists = usercontent.find(el => el.email === email);
         
         if (!userExists) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(401).json({ message: "User not found" });
         }
-        if (userExists.password !== password) {
-            return res.status(202).json({ message: "Wrong Password" });
+        if (userExists.password == password) {
+            return res.status(200).json({message:"Login successfull"})
         }
-         else{
-            res.status(200).json({message:"Login successfull"})
+        else{
+            res.status(401).json({ message: "Wrong Password" });
          }
     } catch (error) {
         res.status(500).json({ message: error.message });

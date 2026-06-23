@@ -1,9 +1,62 @@
 import "../App.css";
-import { useNavigate } from "react-router-dom";
 import google from "../assets/google.svg"
 import apple from "../assets/apple.svg"
+import { useNavigate} from "react-router-dom";
+import {useLocation } from "react-router-dom";
+import {useRef} from "react"
 
 export default function App() {
+
+        const handlecodeInput = async () => {
+        console.log(codeRef.current?.value);
+        const code = codeRef.current?.value
+        console.log(code)
+
+        if (!codeRef.current?.value) {
+            return alert("Please fill complete details!");
+        }
+        // console.log(userData);
+        else {
+            try {
+                const response = await fetch('http://localhost:9000/verify_otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, code })
+                });
+                const result = await response.json();
+
+
+                if (!response.ok) {
+                    alert('Error: ' + (result.message || "Wrong code"));
+                    return;
+                }
+
+                if (result.status === "new_user") {
+                    // globalArray.push(result.status === "new_user")
+                    setInfoArray([{ status: "new_user" }])
+                    alert("Email verified. Create your password.");
+                    navigate("/Signup_password", {
+                        state: { email }
+                    });
+
+                }
+                else if (result.status === "old_user") {
+                    // globalArray.push(result.status === "old_user")
+                    setInfoArray([{ status: "old_user" }])
+                    alert("Welcome back!");
+                    navigate("/Home");
+                }
+
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        }
+    }
+
+
     const navigate = useNavigate();
     return (
         <>
