@@ -9,6 +9,7 @@ app.use((req, res, next) => {
     next();
 });
 const cors = require('cors');
+const { Route } = require("lucide-react");
 app.use(cors());
 
 
@@ -92,12 +93,12 @@ app.post("/send_otp", async (req, res) => {
     </div>
 
     <div class="content">
-      <p>Hi, <strong>${userExists.username}</strong>,</p>
+      <p>Hi, <strong></strong>,</p>
 
       <p>Thank you for contacting us.</p>
 
       <p>
-        Hello ${userExists.username}, We Recieved a request to reset your password.
+        Hello , We Recieved a request to reset your password.
         Ths is your 4-digit Code ${code} don't share with anyone!
       </p>
 
@@ -174,6 +175,7 @@ app.post("/verify_otp", async (req, res) => {
         } else {
             return res.status(200).json({ status: "new_user" });
         }
+        console.log(otpStore[email])
 
     } catch (error) {
         console.log("Error : ", error.message);
@@ -198,13 +200,44 @@ app.post("/login", async (req, res) => {
         if (userExists.password !== password) {
             return res.status(202).json({ message: "Wrong Password" });
         }
-        
+         else{
+            res.status(200).json({message:"Login successfull"})
+         }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 })
 
 // Route :: 4
+
+
+app.post("/password", async (req, res) => {
+
+    try {
+        const filecontent = await fs.readFile("./users.json", "utf-8")
+        const usercontent = JSON.parse(filecontent)
+        const { email, password } = req.body;
+
+        const userExists = usercontent.find(el => el.email === email);
+
+        if (!userExists) {
+            res.status(202).json({ message: "User not found" });
+        }
+
+        userExists.password = password
+
+        const stringusercontent = JSON.stringify(usercontent, null, 2)
+        await fs.writeFile("./users.json", stringusercontent)
+
+        res.status(200).json({
+            message: "Password created"
+        })
+    } catch (error) {
+        res.status(402).json({ message: "error1" })
+    }
+})
+
+// Route :: 5
 
 app.post("/register", async (req, res) => {
 

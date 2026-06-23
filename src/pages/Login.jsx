@@ -27,13 +27,15 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+
   const [isOpen, setIsOpen] = useState(true);
   const [dropdown, setDropdown] = useState(false);
-  const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
   const [sendActive, setsendActive] = useState("");
   const [loginbar, setloginbar] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
+  const navigate = useNavigate();
+  const emailRef = useRef();
+  
   function handleInputChange(event) {
     const inputValue = event.target.value;
     if (inputValue.trim() === "") {
@@ -61,6 +63,40 @@ export default function Login() {
 
 
 
+  
+  const handleEmailInput = async () => {
+    console.log(emailRef.current?.value);
+    const email = emailRef.current?.value
+    console.log(email)
+
+    if (!emailRef.current?.value) {
+        return alert("Please fill complete details!");
+    }
+    // console.log(userData);
+    else {
+        try {
+            const response = await fetch('http://localhost:9000/send_otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email})
+            });
+            const result = await response.json();
+  
+            if (response.ok) {
+                alert('Otp sent to you given mail');
+                navigate("/Signup_with_code", { state: { email }})
+  
+            } else {
+                alert('Error: ' + (result.message || "Wrong Email"));
+            }
+  
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+  }
 
 
 
@@ -150,8 +186,8 @@ export default function Login() {
                   <div className="or">OR</div>
                   <div className="line"></div>
                 </div>
-                <input type="text" placeholder="Email Address" className="inpt" autoFocus />
-                <button className="submit_btn" onClick={() => navigate("/Signup_with_code")}>Continue</button>
+                <input type="text" placeholder="Email Address" className="inpt" autoFocus ref={emailRef} />
+                <button className="submit_btn" onClick={handleEmailInput}>Continue</button>
 
               </div>
 
@@ -224,3 +260,6 @@ export default function Login() {
     </div>
   );
 }
+
+
+// npx kill-port 9000
