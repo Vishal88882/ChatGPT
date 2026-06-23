@@ -12,6 +12,7 @@ const cors = require('cors');
 app.use(cors());
 
 
+
 const otpStore = {};
 
 // Route :: 1
@@ -25,18 +26,19 @@ app.post("/send_otp", async (req, res) => {
         const userExists = usercontent.find(el => el.email === email);
         const code = Math.floor(1000 + Math.random() * 9000)
 
+
         if (!userExists) {
             usercontent.push({ email, password: "" });
             await fs.writeFile("./users.json", JSON.stringify(usercontent, null, 2));
         }
+        else {
+            otpStore[email] = code;
+            const stringusercontent = JSON.stringify(usercontent, null, 2)
+            await fs.writeFile("./users.json", stringusercontent)
+            console.log("Code Sent!")
+            console.log(otpStore)
 
-        otpStore[email] = code;
-
-        const stringusercontent = JSON.stringify(usercontent, null, 2)
-        await fs.writeFile("./users.json", stringusercontent)
-        console.log("Code Sent!")
-
-        const Mail_Template = `<!DOCTYPE html>
+            const Mail_Template = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -92,12 +94,12 @@ app.post("/send_otp", async (req, res) => {
     </div>
 
     <div class="content">
-      <p>Hi, <strong>${userExists.username}</strong>,</p>
+      <p>Hi, <strong></strong>,</p>
 
       <p>Thank you for contacting us.</p>
 
       <p>
-        Hello ${userExists.username}, We Recieved a request to reset your password.
+        Hello , We Recieved a request to reset your password.
         Ths is your 4-digit Code ${code} don't share with anyone!
       </p>
 
@@ -117,33 +119,33 @@ app.post("/send_otp", async (req, res) => {
 </html>
 `
 
-        const transport = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "codewithvishal001@gmail.com",
-                pass: "gxgo vita sphh glwl"
-            }
-        });
-        transport.sendMail({
-            to: email,
-            from: "codewithvishal001@gmail.com",
-            subject: "Reset Your Password",
-            html: Mail_Template,
-            text: "Don't share this Code with anyone!"
-        })
-            .then(() => {
-                console.log("Mail sent")
+            const transport = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "codewithvishal001@gmail.com",
+                    pass: "gxgo vita sphh glwl"
+                }
+            });
+            transport.sendMail({
+                to: email,
+                from: "codewithvishal001@gmail.com",
+                subject: "Reset Your Password",
+                html: Mail_Template,
+                text: "Don't share this Code with anyone!"
             })
-            .catch((error) => {
-                console.log("Error: ", error.message)
+                .then(() => {
+                    console.log("Mail sent")
+                })
+                .catch((error) => {
+                    console.log("Error: ", error.message)
+                })
+
+
+
+            res.status(200).json({
+                message: "Code Sent to your given email"
             })
-
-
-
-        res.status(200).json({
-            message: "Code Sent to your given email"
-        })
-
+        }
     } catch (error) {
         console.log("Error : ", error.message);
         res.status(401).json({ message: error.message });
@@ -184,21 +186,21 @@ app.post("/verify_otp", async (req, res) => {
 // Route :: 3
 
 app.post("/login", async (req, res) => {
-    
+
     try {
         const { email, password } = req.body;
         const filecontent = await fs.readFile("./users.json", "utf-8")
         const usercontent = JSON.parse(filecontent)
-        
+
         const userExists = usercontent.find(el => el.email === email);
-        
+
         if (!userExists) {
             return res.status(404).json({ message: "User not found" });
         }
         if (userExists.password !== password) {
             return res.status(202).json({ message: "Wrong Password" });
         }
-        
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

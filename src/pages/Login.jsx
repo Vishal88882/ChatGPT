@@ -24,6 +24,7 @@ import { FiLifeBuoy } from "react-icons/fi";
 
 import "../App.css";
 
+
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -58,6 +59,42 @@ export default function Login() {
   }, []);
 
 
+  const inputRef = useRef(null);
+  async function handleEmailInput(e) {
+    e.preventDefault();
+    const data = {
+      "email": inputRef.current?.value
+    }
+
+    if (!inputRef.current?.value?.trim()) {
+      alert("Please fill complete details!");
+      return
+    }
+    else {
+      try {
+        const response = await fetch('http://localhost:9000/send_otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Code sent to you mail');
+          navigate("/signup_with_code");
+
+        } else {
+          alert('Error: ' + (result.message || "Signup failed"));
+        }
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+        alert("Network error. Please try again.");
+      }
+    }
+  }
 
 
 
@@ -66,15 +103,6 @@ export default function Login() {
 
 
 
-
-
-
-
-
-
-
-
-  
   return (
     <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
       <aside className={isOpen ? "sidebar" : "sidebar closed"}>
@@ -123,7 +151,7 @@ export default function Login() {
               <span>Log in to get answers based on saved chats, plus create images and upload files.
               </span>
             </span>
-            <button onClick={() => navigate("/home")}>Log in</button>
+            <button onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Log in</button>
           </footer>
         </div>
       </aside>
@@ -150,8 +178,8 @@ export default function Login() {
                   <div className="or">OR</div>
                   <div className="line"></div>
                 </div>
-                <input type="text" placeholder="Email Address" className="inpt" autoFocus />
-                <button className="submit_btn" onClick={() => navigate("/Signup_with_code")}>Continue</button>
+                <input type="text" placeholder="Email Address" className="inpt" autoFocus ref={inputRef} />
+                <button className="submit_btn" onClick={handleEmailInput}>Continue</button>
 
               </div>
 
@@ -163,7 +191,7 @@ export default function Login() {
                 <button className="first_btn first_btn_1" onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Log in</button>
               </span>
               <span>
-                <button className="first_btn_2" onClick={() => navigate("/Signup_with_code")}>Signup for free</button>
+                <button className="first_btn_2" onClick={(e) => { e.stopPropagation(); setloginbar(!loginbar) }}>Signup for free</button>
               </span>
             </span>
           </span>
@@ -212,15 +240,12 @@ export default function Login() {
             <p><LuGraduationCap style={{ paddingRight: "6px", fontSize: "22px" }} />How can I save more money?</p>
             <div className="line"></div>
             <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Is kala jaadu real?</p>
-
           </span>
         </div>
 
-      
-      
-      <p className="disclaimer">ChatGPT is AI. By using it, you agree to our <span>Terms</span> & <span>Privacy Policy.</span> Chats may be reviewed and used to improve our AI models. <span>Learn more</span></p>
+        <p className="disclaimer">ChatGPT is AI. By using it, you agree to our <span>Terms</span> & <span>Privacy Policy.</span> Chats may be reviewed and used to improve our AI models. <span>Learn more</span></p>
       </div>
-      
+
     </div>
   );
 }
