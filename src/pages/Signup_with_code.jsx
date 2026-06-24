@@ -1,5 +1,5 @@
 import "../App.css";
-import { useRef,useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,15 @@ import { useNavigate } from "react-router-dom";
 export default function App() {
     const navigate = useNavigate();
     const location = useLocation();
+
+    const initialStatus = (() => {
+        const s = location.state?.status;
+        if (s === "ok") return "new_user"; // send_otp returns 'ok' for new users
+        if (s === "not ok") return "old_user"; // send_otp returns 'not ok' for existing users
+        return s ?? null;
+    })();
+
+    const statusRef = useRef(initialStatus);
     const [infoArray, setInfoArray] = useState([]);
 
     const codeRef = useRef();
@@ -18,6 +27,7 @@ export default function App() {
     const handlecodeInput = async () => {
         console.log(codeRef.current?.value);
         const code = codeRef.current?.value
+        
         console.log(code)
 
         if (!codeRef.current?.value) {
@@ -35,6 +45,9 @@ export default function App() {
                 });
                 const result = await response.json();
 
+                // keep a synchronous ref of the status so button handler can read it
+                statusRef.current = result.status;
+
 
                 if (!response.ok) {
                     alert('Error: ' + (result.message || "Wrong code"));
@@ -44,6 +57,7 @@ export default function App() {
                 if (result.status === "new_user") {
                     // globalArray.push(result.status === "new_user")
                     setInfoArray([{ status: "new_user" }])
+                    statusRef.current = "new_user";
                     alert("Email verified. Create your password.");
                     navigate("/Signup_password", {
                         state: { email }
@@ -53,6 +67,7 @@ export default function App() {
                 else if (result.status === "old_user") {
                     // globalArray.push(result.status === "old_user")
                     setInfoArray([{ status: "old_user" }])
+                    statusRef.current = "old_user";
                     alert("Welcome back!");
                     navigate("/Home");
                 }
@@ -65,17 +80,21 @@ export default function App() {
     }
 
 
-    const handleButton = () => {
-        const currentStatus = infoArray[0]?.status
-        console.log(currentStatus)
+    const handleButton = async () => {
+        const currentStatus = statusRef.current;
+        if (!currentStatus) {
+            return alert("Please verify the code first.");
+        }
 
         if (currentStatus === "new_user") {
             console.log("Redirecting to onboarding screen...");
-            navigate("/Signup_password")
-        } else {
-            console.log("Welcome back!");
-            navigate("/User_login",{state:{email}})
+            navigate("/Signup_password", { state: { email } })
         }
+        else if (currentStatus === "old_user") {
+            console.log("Welcome back!");
+            navigate("/User_login", { state: { email } })
+        }
+        console.log("statusRef:", statusRef.current);
     }
 
 

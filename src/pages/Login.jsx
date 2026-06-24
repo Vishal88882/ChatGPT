@@ -85,9 +85,9 @@ export default function Login() {
             const result = await response.json();
   
             if (response.ok) {
-                alert('Otp sent to you given mail');
-                navigate("/Signup_with_code", { state: { email }})
-  
+              alert('Otp sent to you given mail');
+              navigate("/Signup_with_code", { state: { email, status: result.status }})
+
             } else {
                 alert('Error: ' + (result.message || "Wrong Email"));
             }

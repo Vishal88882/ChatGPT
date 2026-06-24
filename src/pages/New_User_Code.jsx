@@ -49,7 +49,7 @@ export default function App() {
                     navigate("/Home");
                 }
 
-
+                console.log(result.status)
             } catch (error) {
                 console.error('Fetch error:', error);
             }
@@ -66,7 +66,7 @@ export default function App() {
                 <h3 className="secondry_heading" style={{color:"white", marginTop:"10px", width:"25%"}}>Enter the verification code we just sent to codewithvishal00@gmail.com</h3>
                 <div className="background_inner">
                     <input type="text" className="inpt_new" placeholder="Code" />
-                    <button className="button_new" onClick={() => navigate("/User_login")}>Continue</button>
+                    <button className="button_new" onClick={handlecodeInput}>Continue</button>
                     <div className="divider_new">
                         <div className="line_new"></div>
                         <div className="or_new">OR</div>

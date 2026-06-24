@@ -1,14 +1,13 @@
 import "../App.css";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useRef,useState } from "react"
+import { useRef, useState } from "react"
 
 
 export default function App() {
     const navigate = useNavigate();
     const location = useLocation();
     const passwordRef = useRef();
-    const [infoArray, setInfoArray] = useState([]);
     const email = location.state?.email;
 
     const handleLoginInput = async () => {
@@ -44,52 +43,41 @@ export default function App() {
 
 
     const handlecodeInput = async () => {
-        console.log(codeRef.current?.value);
-        const code = codeRef.current?.value
-        console.log(code)
 
-        if (!codeRef.current?.value) {
-            return alert("Please fill complete details!");
-        }
-        // console.log(userData);
-        else {
+ 
             try {
                 const response = await fetch('http://localhost:9000/send_otp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email, code })
+                    body: JSON.stringify({ email })
                 });
                 const result = await response.json();
 
+                if (result.status == "ok") {
+                    alert("Otp sent to you given email");
+                    navigate("/Signup_with_code", { state: { email, status: result.status } })
 
-                if (!response.ok) {
-                    alert('Error: ' + (result.message || "Wrong code"));
-                    return;
+                } 
+                else if(result.status == "not ok"){
+                    alert("Otp Sent to your give email")
+                    navigate("/New_User_Code", { state: { email } })
                 }
-
-                if (result.status === "new_user") {
-                    setInfoArray([{ status: "new_user" }])
-                    alert("Email verified. Create your password.");
-                    navigate("/Signup_password", {
-                        state: { email }
-                    });
-
-                }
-                else if (result.status === "old_user") {
-                    setInfoArray([{ status: "old_user" }])
-                    alert("Welcome back!");
-                    navigate("/New_User_Code",{state:{email}});
-                }
-
+                
 
             } catch (error) {
                 console.error('Fetch error:', error);
             }
         }
-    }
 
+
+         {
+//     "email": "sunharilalrajpu8882@gmail.com",
+//     "password": "122",
+//     "name": "12",
+//     "age": "12"
+  }
     return (
         <>
             <div className="background">
