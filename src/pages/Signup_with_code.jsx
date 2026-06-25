@@ -8,26 +8,29 @@ import { useNavigate } from "react-router-dom";
 // let globalArray = []
 
 export default function App() {
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const initialStatus = (() => {
-        const s = location.state?.status;
-        if (s === "ok") return "new_user"; // send_otp returns 'ok' for new users
-        if (s === "not ok") return "old_user"; // send_otp returns 'not ok' for existing users
-        return s ?? null;
-    })();
-
+    const initialStatus = null;
     const statusRef = useRef(initialStatus);
     const [infoArray, setInfoArray] = useState([]);
-
     const codeRef = useRef();
+    
+    const navigate = useNavigate();
+    const location = useLocation();
+    
     const email = location.state?.email;
+
+    useEffect(() => {
+        if (!email) {
+            alert("Session expired. Please try again.");
+            navigate("/Login");
+        }
+    }, [email]);
+
+
 
     const handlecodeInput = async () => {
         console.log(codeRef.current?.value);
         const code = codeRef.current?.value
-        
+
         console.log(code)
 
         if (!codeRef.current?.value) {
@@ -44,8 +47,6 @@ export default function App() {
                     body: JSON.stringify({ email, code })
                 });
                 const result = await response.json();
-
-                // keep a synchronous ref of the status so button handler can read it
                 statusRef.current = result.status;
 
 
@@ -57,7 +58,7 @@ export default function App() {
                 if (result.status === "new_user") {
                     // globalArray.push(result.status === "new_user")
                     setInfoArray([{ status: "new_user" }])
-                    statusRef.current = "new_user";
+                    
                     alert("Email verified. Create your password.");
                     navigate("/Signup_password", {
                         state: { email }
@@ -67,7 +68,7 @@ export default function App() {
                 else if (result.status === "old_user") {
                     // globalArray.push(result.status === "old_user")
                     setInfoArray([{ status: "old_user" }])
-                    statusRef.current = "old_user";
+               
                     alert("Welcome back!");
                     navigate("/Home");
                 }

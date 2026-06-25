@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs/promises")
 const app = express();
 const nodemailer = require("nodemailer");
+console.log("🚀 SERVER STARTED", Date.now());
 app.use(express.json())
 app.use((req, res, next) => {
     console.log("it's custom middleware")
@@ -15,6 +16,7 @@ const { error } = require("console");
 app.use(cors());
 
 
+
 const otpStore = {};
 
 // Route :: 1
@@ -26,40 +28,39 @@ app.post("/send_otp", async (req, res) => {
         const usercontent = JSON.parse(filecontent)
         const { email } = req.body;
         const userExists = usercontent.find(el => el.email === email);
-        const code = Math.floor(1000 + Math.random() * 9000)
-        console.log(code)
+        // console.log(code)
 
         if (!email) return res.status(400).json({
             message: "Email is required"
         });
 
+        let status = "old_user";
         if (!userExists) {
             usercontent.push({ email, password: "" });
-            // otpStore[email] = code;
             await fs.writeFile("./users.json", JSON.stringify(usercontent, null, 2));
-            res.status(200).json({
-                status: "ok",
-                message: "New user"
-            })
+            status = "new_user";
+
         }
-        if (userExists) {
+        if (otpStore[email]) {
+            return res.status(400).json({
+                message: "OTP already sent. Wait before requesting again"
+            });
+        }
 
-            otpStore[email] = code;
-            console.log("OTP GENERATED:", code);
+        const code = Math.floor(1000 + Math.random() * 9000)
 
-            const stringusercontent = JSON.stringify(usercontent, null, 2)
-            await fs.writeFile("./users.json", stringusercontent)
-            console.log("Code Sent!")
-            res.status(200).json({
-                status: "not ok",
-                message: "Old User"
-            })
+        otpStore[email] = code;
+        console.log("OTP GENERATED:", code);
 
-            setTimeout(() => {
-                console.log("AFTER 10s:", email, otpStore[email]);
-            }, 10000);
+        const stringusercontent = JSON.stringify(usercontent, null, 2)
+        await fs.writeFile("./users.json", stringusercontent)
+        console.log("Code Sent!")
 
-            const Mail_Template = `<!DOCTYPE html>
+        setTimeout(() => {
+            console.log("AFTER 10s:", email, otpStore[email]);
+        }, 10000);
+
+        const Mail_Template = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -140,27 +141,31 @@ app.post("/send_otp", async (req, res) => {
 </html>
 `
 
-            const transport = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: "codewithvishal001@gmail.com",
-                    pass: "gxgo vita sphh glwl"
-                }
-            });
-            transport.sendMail({
-                to: email,
-                from: "codewithvishal001@gmail.com",
-                subject: "Reset Your Password",
-                html: Mail_Template,
-                text: "Don't share this Code with anyone!"
+        const transport = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "codewithvishal001@gmail.com",
+                pass: "gxgo vita sphh glwl"
+            }
+        });
+        transport.sendMail({
+            to: email,
+            from: "codewithvishal001@gmail.com",
+            subject: "Reset Your Password",
+            html: Mail_Template,
+            text: "Don't share this Code with anyone!"
+        })
+            .then(() => {
+                console.log("Mail sent")
             })
-                .then(() => {
-                    console.log("Mail sent")
-                })
-                .catch((error) => {
-                    console.log("Error: ", error.message)
-                })
-        }
+            .catch((error) => {
+                console.log("Error: ", error.message)
+            })
+        return res.status(200).json({
+            status,
+            message: "OTP sent"
+        });
+
     } catch (error) {
         console.log("Error : ", error.message);
         res.status(401).json({ message: error.message });
@@ -176,6 +181,7 @@ app.post("/verify_otp", async (req, res) => {
 
         if (!otpStore[email])
             return res.status(400).json({ message: "OTP expired, request a new one" });
+
 
         if (otpStore[email] != code)
             return res.status(400).json({ message: "Wrong OTP" });

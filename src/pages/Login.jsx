@@ -35,7 +35,7 @@ export default function Login() {
   const [loginbar, setloginbar] = useState(false);
   const navigate = useNavigate();
   const emailRef = useRef();
-  
+
   function handleInputChange(event) {
     const inputValue = event.target.value;
     if (inputValue.trim() === "") {
@@ -63,38 +63,40 @@ export default function Login() {
 
 
 
-  
+
   const handleEmailInput = async () => {
     console.log(emailRef.current?.value);
     const email = emailRef.current?.value
     console.log(email)
 
     if (!emailRef.current?.value) {
-        return alert("Please fill complete details!");
+      return alert("Please fill complete details!");
     }
     // console.log(userData);
     else {
-        try {
-            const response = await fetch('http://localhost:9000/send_otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({email})
-            });
-            const result = await response.json();
-  
-            if (response.ok) {
-              alert('Otp sent to you given mail');
-              navigate("/Signup_with_code", { state: { email, status: result.status }})
+      try {
+        const response = await fetch('http://localhost:9000/send_otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+        const result = await response.json();
 
-            } else {
-                alert('Error: ' + (result.message || "Wrong Email"));
+        if (result.status === "old_user" || result.status === "new_user") {
+          alert("Code sent you given emial")
+          navigate("/Signup_with_code", {
+            state: {
+              email,
+              status: result.status
             }
-  
-        } catch (error) {
-            console.error('Fetch error:', error);
+          });
         }
+
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
     }
   }
 
@@ -102,15 +104,6 @@ export default function Login() {
 
 
 
-
-
-
-
-
-
-
-
-  
   return (
     <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
       <aside className={isOpen ? "sidebar" : "sidebar closed"}>
@@ -252,11 +245,11 @@ export default function Login() {
           </span>
         </div>
 
-      
-      
-      <p className="disclaimer">ChatGPT is AI. By using it, you agree to our <span>Terms</span> & <span>Privacy Policy.</span> Chats may be reviewed and used to improve our AI models. <span>Learn more</span></p>
+
+
+        <p className="disclaimer">ChatGPT is AI. By using it, you agree to our <span>Terms</span> & <span>Privacy Policy.</span> Chats may be reviewed and used to improve our AI models. <span>Learn more</span></p>
       </div>
-      
+
     </div>
   );
 }
