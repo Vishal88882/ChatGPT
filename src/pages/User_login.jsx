@@ -40,11 +40,7 @@ export default function App() {
         }
     }
 
-
-
     const handlecodeInput = async () => {
-
- 
             try {
                 const response = await fetch('http://localhost:9000/send_otp', {
                     method: 'POST',

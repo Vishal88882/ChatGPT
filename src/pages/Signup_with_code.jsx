@@ -8,14 +8,15 @@ import { useNavigate } from "react-router-dom";
 // let globalArray = []
 
 export default function App() {
-    const initialStatus = null;
-    const statusRef = useRef(initialStatus);
+
     const [infoArray, setInfoArray] = useState([]);
     const codeRef = useRef();
-    
-    const navigate = useNavigate();
+
     const location = useLocation();
-    
+    const initialStatus = location.state?.status || null;
+    const statusRef = useRef(initialStatus);
+    const navigate = useNavigate();
+
     const email = location.state?.email;
 
     useEffect(() => {
@@ -58,7 +59,7 @@ export default function App() {
                 if (result.status === "new_user") {
                     // globalArray.push(result.status === "new_user")
                     setInfoArray([{ status: "new_user" }])
-                    
+
                     alert("Email verified. Create your password.");
                     navigate("/Signup_password", {
                         state: { email }
@@ -68,7 +69,7 @@ export default function App() {
                 else if (result.status === "old_user") {
                     // globalArray.push(result.status === "old_user")
                     setInfoArray([{ status: "old_user" }])
-               
+
                     alert("Welcome back!");
                     navigate("/Home");
                 }

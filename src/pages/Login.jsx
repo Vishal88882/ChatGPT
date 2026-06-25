@@ -1,5 +1,7 @@
+import "../App.css";
 import { useState, useEffect, useRef } from "react";
 import { LuGraduationCap, LuNewspaper, LuPanelLeft, LuPhone } from "react-icons/lu";
+import { FiSettings, FiLifeBuoy } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import apple from "../assets/apple.svg"
 import phone from "../assets/phone.svg"
@@ -19,10 +21,6 @@ import input2 from "../assets/input2.svg";
 import input3 from "../assets/input3.svg";
 import send from "../assets/send.svg";
 import login1 from "../assets/login1.svg";
-import { FiSettings } from "react-icons/fi";
-import { FiLifeBuoy } from "react-icons/fi";
-
-import "../App.css";
 
 import { useNavigate } from "react-router-dom";
 
@@ -31,8 +29,9 @@ export default function Login() {
   const [isOpen, setIsOpen] = useState(true);
   const [dropdown, setDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [sendActive, setsendActive] = useState("");
+  const [sendActive, setsendActive] = useState(false);
   const [loginbar, setloginbar] = useState(false);
+  const [chatbox, setchatbox] = useState(false)
   const navigate = useNavigate();
   const emailRef = useRef();
 
@@ -58,10 +57,6 @@ export default function Login() {
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
-
-
-
-
 
 
   const handleEmailInput = async () => {
@@ -99,10 +94,7 @@ export default function Login() {
       }
     }
   }
-
-
-
-
+console.log(chatbox);
 
   return (
     <div className="container" onClick={() => { setDropdown(false), setloginbar(false) }}>
@@ -181,9 +173,7 @@ export default function Login() {
                 </div>
                 <input type="text" placeholder="Email Address" className="inpt" autoFocus ref={emailRef} />
                 <button className="submit_btn" onClick={handleEmailInput}>Continue</button>
-
               </div>
-
             </>
             )}
 
@@ -223,26 +213,46 @@ export default function Login() {
 
 
         <div className="chat_box">
-          <p>What’s on the agenda today?</p>
-          <span className="fortext">
-            <img src={input1} alt="Input 1" className="svg" />
-            <input autoFocus onChange={handleInputChange}></input>
-            <img src={input2} alt="Input 2" className="svg" />
-            {sendActive ? (
-              <img src={send} alt="Send" className="svg" />
-            ) : (
-              <img src={input3} alt="Input 3" className="svg" />
-            )}
+          {chatbox ? (
+            <>
+              <div className="request_area"><p className="flexible_text" ></p></div>
+              <div className="response_area"><p className="flexible_text" ></p></div>
 
-          </span>
-          <span className="suggestions suggestions_1">
-            <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Turn photo into profile pic</p>
-            <div className="line"></div>
-            <p><LuGraduationCap style={{ paddingRight: "6px", fontSize: "22px" }} />How can I save more money?</p>
-            <div className="line"></div>
-            <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Is kala jaadu real?</p>
+              <span className="fortext">
+                <img src={input1} alt="Input 1" className="svg" />
+                <input autoFocus onChange={handleInputChange} className="chat_inpt"></input>
+                <img src={input2} alt="Input 2" className="svg" />
+                {sendActive ? (
+                  <img src={send} alt="Send" className="svg" onClick={() => alert("clicked")}/>
+                ) : (
+                  <img src={input3} alt="Input 3" className="svg" />
+                )}
+              </span>
 
-          </span>
+            </>
+          ) : (
+            <>
+              <p>What’s on the agenda today?</p>
+              <span className="fortext">
+                <img src={input1} alt="Input 1" className="svg" />
+                <input autoFocus onChange={handleInputChange} className="chat_inpt"></input>
+                <img src={input2} alt="Input 2" className="svg" />
+                {sendActive ? (
+                  <img src={send} alt="Send" className="svg" onClick={() => alert("clicked")}/>
+                ) : (
+                  <img src={input3} alt="Input 3" className="svg" />
+                )}
+
+              </span>
+              <span className="suggestions suggestions_1">
+                <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Turn photo into profile pic</p>
+                <div className="line"></div>
+                <p><LuGraduationCap style={{ paddingRight: "6px", fontSize: "22px" }} />How can I save more money?</p>
+                <div className="line"></div>
+                <p><LuNewspaper style={{ transform: "scaleX(-1)", paddingLeft: "6px", fontSize: "18px" }} />Is kala jaadu real?</p>
+
+              </span>
+            </>)}
         </div>
 
 
